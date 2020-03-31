@@ -1,0 +1,24 @@
+I parsed https://fakty.com.ua/ua/ and the result of top 5 today's news is:
+
+{'today_news1': {'link': 'https://fakty.com.ua/ua/ukraine/20200331-hvori-na-covid-19-mozhut-vyhodyty-v-magazyn-i-apteky-za-pevnyh-umov-kabmin/',
+                 'news': '\n'
+                         'Хворі на Covid-19 можуть виходити в магазин і аптеки '
+                         'за певних умов – Кабмін \n'
+                         'Уряд дозволив хворим на коронавірус відвідувати '
+                         'аптеки та продуктові …  '},
+ 'today_news2': {'link': 'https://fakty.com.ua/ua/ukraine/20200331-moz-dozvolyv-robotu-produktovyh-rynkiv-u-karantyn-umovy/',
+                 'news': '\n'
+                         'МОЗ дозволить роботу продуктових ринків у карантин – '
+                         'умови '},
+ 'today_news3': {'link': 'https://fakty.com.ua/ua/ukraine/20200331-zminy-z-kvitnya-2020-v-ukrayini-medreforma-odnorazovi-vyplaty-i-podatkovyj-karantyn/',
+                 'news': '\n'
+                         'Зміни з квітня 2020 в Україні: медреформа, '
+                         'одноразові виплати і податковий карантин '},
+ 'today_news4': {'link': 'https://fakty.com.ua/ua/ukraine/20200331-u-radi-zareyestruvaly-dvi-postanovy-pro-skasuvannya-rynku-zemli/',
+                 'news': '\n'
+                         'У Раді зареєстрували дві постанови про скасування '
+                         'ринку землі '},
+ 'today_news5': {'link': 'https://fakty.com.ua/ua/ukraine/20200331-karantyn-cherez-koronavirus-v-ukrayini-yak-prohodyt-pershyj-den/',
+                 'news': '\n'
+                         'Карантин в Україні – все, що потрібно знати, і '
+                         'останні новини '}}
