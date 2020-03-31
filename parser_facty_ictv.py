@@ -27,9 +27,9 @@ def dir_for_save_html(dir_name):
 def cache_page(url, root_path, site_parse_name):
     """
 
-    :param url: str
-    :param root_path: str
-    :param site_parse_name: str
+    :param url: str , url page to save
+    :param site_parse_name: str, path like 'html_pages_ictv' - name of dir where you want to save pages of this site
+    :param root_path: str, the main path to dir to where will be all dirs of sites (like os.getcwd())
     :return: cache page to parse in later
     """
     session = boto3.session.Session()
@@ -40,10 +40,13 @@ def cache_page(url, root_path, site_parse_name):
                             aws_secret_access_key='dmifQIBG5a8hzPcBXsohAnDeJCfMrY2W5ryOE87U1fE')
 
     filename = slugify(url) + ".html"
+
+    # create dir where html_page will be saved and save it if those page not in this dir
     temp_directory = Path(os.path.join(os.path.join(os.getcwd(), 'html_pages', site_parse_name)))
     temp_directory.mkdir(exist_ok=True)
     html_pages_path = os.path.join(os.path.join(os.path.join(os.getcwd(), 'html_pages'),
                                                 site_parse_name))
+
     if filename not in os.listdir(html_pages_path):
         while True:
             try:
