@@ -2,7 +2,7 @@
 Містить результати виконання домашніх завдань. 
 
 
-# Projecct name: 
+# Project name: 
 Fake news finder
     
 # Description: 
