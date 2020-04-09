@@ -1,9 +1,9 @@
-# Homeworks-Lawyer-online
+# Fake_news_finder
 Містить результати виконання домашніх завдань. 
 
 
 # Projecct name: 
-Fake_news_finder
+Fake news finder
     
 # Description: 
 Проект має на меті виявлення на скільки достовірна новина за 4 категоріями: брехня, хитра новина, можливо правда, правда.
