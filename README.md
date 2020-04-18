@@ -1,7 +1,7 @@
 # Fake_news_finder
 Містить результати виконання домашніх завдань. 
 
-! [] (static/fake_news.gif)
+![Fake news](static/fake_news.gif)
 
 
 # Project name: 
