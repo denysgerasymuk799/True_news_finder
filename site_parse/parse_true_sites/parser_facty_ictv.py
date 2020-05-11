@@ -12,18 +12,6 @@ from bs4 import BeautifulSoup
 from slugify import slugify
 
 
-def dir_for_save_html(dir_name):
-    """
-
-    :param dir_name: a name of directory to save
-    :return: a root path for html pages
-    """
-    now = datetime.now()
-    timestamp = now.strftime("%Y-%m-%d-%H-%M-%S")
-    root_path = os.path.join(os.getcwd(), "html_pages", dir_name, timestamp).replace("\\", "/")
-    return root_path
-
-
 def cache_page(url, root_path, site_parse_name):
     """
 
@@ -126,7 +114,7 @@ def find_today_news(url):
 
 
 if __name__ == '__main__':
-    url = "https://fakty.com.ua/ua/"
+    url = "https://fakty.com.ua/ua/news/"
     data = requests.get(url,
                         headers={
                             "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
