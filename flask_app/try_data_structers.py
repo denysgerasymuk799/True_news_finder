@@ -28,7 +28,7 @@ if __name__ == '__main__':
     elif user_choice == "3":
         all_user_text = ""
         print("Type text to translate")
-        print("If you want to stop typing text put ENTER 4 times")
+        print("If you want to stop typing text put ENTER 4 times in a row")
         flag_break = 0
         while flag_break != 2:
             user_input = input()
