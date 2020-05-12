@@ -17,7 +17,7 @@ class Array:
         self._elements = py_array_type()
         self._new_element_pos = -1
         # Initialize each element.
-        self.clear("")
+        self.clear(0)
 
     # Returns the size of the array.
     def __len__(self):
@@ -63,16 +63,19 @@ class Array:
     def append_array(self, item):
         self._new_element_pos += 1
         self._elements[self._new_element_pos] = item
+        self._size += 1
 
     def split(self, char):
         self2 = Array(50)
-        string = self[0][0]
+        string = self[0]
         position_next_line = 0
-        for i in range(len(string)):
-            if string[i] == char:
+        for i in range(75, len(string)):
+            ch = string[i]
+            if ch == char:
                 self2.append_array(string[position_next_line:i - 1])
                 position_next_line = i + 1
 
+        # self._size = len(self2)
         return self2
 
     def join_array(self, char):

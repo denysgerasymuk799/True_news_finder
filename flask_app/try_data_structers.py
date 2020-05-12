@@ -13,8 +13,9 @@ if __name__ == '__main__':
         3. Translate on english""")
 
     user_choice = input("Choose number of the function to try it: ")
-    while not user_choice.isdigit():
-        print("Enter only numbers from range [1, 2]")
+    while user_choice.strip() != "1" and user_choice.strip() != "2" and \
+            user_choice.strip() != "3":
+        print("Enter only numbers from range [1, 2, 3]")
         user_choice = input("Choose number of the function to try it:")
 
     if user_choice == "1":
@@ -25,5 +26,15 @@ if __name__ == '__main__':
         get_tests_results()
 
     elif user_choice == "3":
-        user_text = input("Type text to translate:\n")
-        print(translate_text(user_text, "en"))
+        all_user_text = ""
+        print("Type text to translate")
+        print("If you want to stop typing text put ENTER 4 times")
+        flag_break = 0
+        while flag_break != 2:
+            user_input = input()
+            if user_input.strip() == "":
+                flag_break += 1
+            else:
+                flag_break = 0
+            all_user_text += user_input
+        print(translate_text(all_user_text, "en"))

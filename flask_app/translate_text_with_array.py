@@ -24,14 +24,14 @@ def translate_text(article, dest_lang):
     result = '\n' in article
     if result:
         for line in article_array.split('\n'):
-            if line != "":
+            if line != 0:
                 # REINITIALIZE THE API
                 translator = Translator()
                 try:
                     translated = translator.translate(line, src=src_lang, dest=dest_lang)
                     new_rows.append_array(translated.text)
                 except Exception as e:
-                    print(str(e))
+                    # print(str(e))
                     continue
             else:
                 break
