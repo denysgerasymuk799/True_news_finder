@@ -5,7 +5,7 @@ import sqlalchemy
 import requests
 from bs4 import BeautifulSoup
 
-from flask_app.app import db, Article, ArticleFakeChecker2
+from app import db, Article, ArticleFakeChecker2
 
 MAIN_URL = "https://euvsdisinfo.eu/news/"
 MAIN_URL_PAGE_FROM2 = "https://euvsdisinfo.eu/news/page/"

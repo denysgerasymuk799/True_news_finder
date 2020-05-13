@@ -1,13 +1,11 @@
 """
-high level support for image compress
+C library
 """
 import ctypes
 
 
-# Implements the Array ADT using array capabilities of the ctypes module.
-
 class Array:
-    # Creates an array with size elements.
+    """Creates an array with size elements"""
     def __init__(self, size):
         """initialize functions attributes"""
         assert size > 0, "Array size must be > 0"
@@ -61,11 +59,17 @@ class Array:
         return to_return + to_print + "]"
 
     def append_array(self, item):
+        """
+        item: an element to append on new self._new_element_pos
+        """
         self._new_element_pos += 1
         self._elements[self._new_element_pos] = item
         self._size += 1
 
     def split(self, char):
+        """
+        char: str, a character with which split this text
+        """
         self2 = Array(50)
         string = self[0]
         position_next_line = 0
@@ -75,10 +79,12 @@ class Array:
                 self2.append_array(string[position_next_line:i - 1])
                 position_next_line = i + 1
 
-        # self._size = len(self2)
         return self2
 
     def join_array(self, char):
+        """
+        char: str, with which to join array elements
+        """
         result_str = ""
         for i in range(self._size):
             if self[i] != 0:

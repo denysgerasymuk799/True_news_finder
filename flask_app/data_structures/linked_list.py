@@ -1,6 +1,3 @@
-import copy
-
-
 class Node:
     def __init__(self, title, same_words, date, url, resource, next=None):
         """Instantiates a Node with default next of None"""
@@ -20,15 +17,19 @@ class TwoWayNode(Node):
 
 
 class LinkedList:
-    # Create a new polynomial object.
+    """Create a new Linked List for articles"""
     def __init__(self, title, same_words, date, url, resource):
+        """
+        title, date, url, resource: str
+        same_words: a list of same words
+        """
         self.int_head = TwoWayNode(title, same_words, date, url, resource)
         self.int_tail = self.int_head
         self.length = 1
 
     def __str__(self):
         """
-        Prints the value stored in self.
+        Prints the data stored in self.
         __str__: Node -> Str
         """
         result_str = "{\n"
@@ -42,14 +43,15 @@ class LinkedList:
                          "    \"url\": {},\n".format(article.url) + \
                          "    \"resource\": {}\n),\n".format(article.resource)
 
-            # if article_id == 1:
-            #     result_str = result_str[:-2] + "\n}"
-
             article = article.next
 
         result_str = result_str[:-2] + "\n}"
         return result_str
 
     def add(self, title, date, url, resource):
+        """
+        Add a new TwoWayNode to self.int_tail
+        title, date, url, resource: str
+        """
         self.int_tail.next = TwoWayNode(title, date, url, resource, self.int_tail)
         self.int_tail = self.int_tail.next
