@@ -3,7 +3,7 @@ import os
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
-from my_config import Config
+from flask_app.my_config import Config
 
 app = Flask(__name__)
 
@@ -67,14 +67,39 @@ class ArticleFakeChecker2(db.Model):
             self.resource, self.url)
 
 
-@app.route('/', methods=['POST', 'GET'])
-def input_profession():
-    if request.method == 'POST':
-        user_article_title = request.values.get("user_article_title").lower()
-
-        # return redirect(url_for("middle"))
-    else:
-        return render_template("input_article.html")
+# @app.route('/')
+# def input_profession():
+#     if request.method == 'POST':
+#         user_article_title = request.values.get("user_article_title").lower()
+#
+#         # return redirect(url_for("middle"))
+#     else:
+#         return render_template("request.html")
+#
+#
+# @app.route('/input_profession', methods=['POST', 'GET'])
+# def input_profession():
+#     if request.method == 'POST':
+#         job = request.values.get("job").lower()
+#         eng_job_titles = ["system administrator", "analyst", "business analyst",
+#                           "data scientist", "database administrator", "programmer"]
+#         ru_job_titles = ["системный администратор", "analyst", "business analyst", "data scientist",
+#                          "адміністратор баз даних", "программист php"]
+#         if job in eng_job_titles:
+#             job = ru_job_titles[eng_job_titles.index(job)]
+#
+#         global skills
+#
+#         with open(os.path.join(os.getcwd(), 'user_data', 'user_data.json'), 'w', encoding='utf-8') as \
+#                 user_data_json_from_file:
+#             user_data_json = {}
+#             user_data_json['profession'] = job
+#             json.dump(user_data_json, user_data_json_from_file, indent=4, ensure_ascii=False)
+#
+#         skills = skills_for_job(job)  # your function
+#         return redirect(url_for("middle"))
+#     else:
+#         return render_template("request.html")
 
 
 if __name__ == "__main__":

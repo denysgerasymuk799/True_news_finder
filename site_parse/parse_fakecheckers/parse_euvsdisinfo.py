@@ -1,140 +1,132 @@
-import json
-import time
+import sqlite3
 
-import boto3
-import requests
-import os
-from slugify import slugify
+import sqlalchemy
 
 import requests
 from bs4 import BeautifulSoup
 
-from flask_app.app import db, Article
+from flask_app.app import db, Article, ArticleFakeChecker2
 
-MAIN_URL = "https://www.obozrevatel.com/ukr/main-item.htm?utm_source=obozrevatel&utm_medium=self_promo&utm_campaign=mi_header_btn"
-MAIN_URL_PAGE_FROM2 = "https://tsn.ua/ajax/show-more/news?page=1"
-NUMBER_PAGES = 78
+MAIN_URL = "https://euvsdisinfo.eu/news/"
+MAIN_URL_PAGE_FROM2 = "https://euvsdisinfo.eu/news/page/"
 
 
-def cache_page(url, root_path, dir_name):
-    filename = slugify(url) + ".html"
-    my_cwd = os.getcwd()
-    os.chdir("..")
-    os.chdir("..")
-    html_pages_path = os.path.join(os.getcwd(), "html_pages", dir_name)
-    if filename not in os.listdir(html_pages_path):
-        while True:
+def parse_main_pages():
+    try:
+        last_article = db.session.query(ArticleFakeChecker2).order_by(ArticleFakeChecker2.id.desc()).first()
+        max_id_pos_start = str(last_article).find("id=")
+        max_id_pos_end = str(last_article).find("title=")
+        max_id = str(last_article)[max_id_pos_start + 3: max_id_pos_end - 2]
+        max_id = int(max_id) + 1
+    except ValueError:
+        max_id = 1
+
+    print("max_id", max_id)
+    flag_old_news = 0
+    n_page = 0
+    while flag_old_news != 1:
+        n_page = n_page + 1
+        article_date = ""
+        print("n_page", n_page)
+        if n_page == 1:
+            url = MAIN_URL
+
+        else:
+            url = MAIN_URL_PAGE_FROM2 + str(n_page + 1) + '/'
+
+        html_page = requests.get(url,
+                                 headers={
+                                     "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
+                                                   "Gecko/20100101 Firefox/74.0"}, verify=False).text
+
+        soup = BeautifulSoup(html_page, 'html.parser')
+        all_articles = soup.find_all("a", {"class": "b-post__link"})
+
+        for article in all_articles:
+
+            print()
+            url_article = article.get("href")
+
+            article_title, article_date, article_text = parse_article_pages(url_article)
+            article_text = str(article_text).strip()
+            print("article_title", article_title)
             try:
-                r = requests.get(url)
-                break
-            except Exception as e:
-                print(e.with_traceback())
-                time.sleep(1)
-        with open(os.path.join(html_pages_path, filename), "w", encoding="utf-8") as f:
-            # print(r.)
-            f.write(r.text)
-    with open(os.path.join(html_pages_path, filename), "r", encoding="utf-8") as f:
-        text = f.read()
-    os.chdir(my_cwd)
+                db.session.rollback()
+                if db.session.query(ArticleFakeChecker2.id).filter_by(title=article_title).scalar() is not None:
+                    print("Found in db")
+                    continue
 
-    tmp_file = os.path.join(html_pages_path, filename)
-    return text
+            except sqlite3.IntegrityError:
+                continue
+            except sqlalchemy.exc.IntegrityError:
+                continue
+
+            resource = "https://euvsdisinfo.eu/"
+            print("article_text", article_text)
+            print("article_date", article_date)
+
+            new_article = ArticleFakeChecker2(id=max_id,
+                                              title=article_title,
+                                              title_en=article_title,
+                                              text=article_text,
+                                              date=article_date,
+                                              resource=resource,
+                                              url=url_article)
+
+            max_id += 1
+
+            try:
+                db.session.add(new_article)
+                db.session.commit()
+                db.session.flush()
+                db.create_all()
+            except sqlalchemy.exc.IntegrityError:
+                continue
+            except sqlalchemy.exc.DataError:
+                continue
+
+        if str(article_date).split(", ")[-1].strip() == "2018" or n_page >= 700:
+            flag_old_news = 1
+
+        # try:
+        #     db.session.rollback()
+        #     db.session.commit()
+        #     db.create_all()
+        # except sqlalchemy.exc.IntegrityError:
+        #     continue
+        # with open("stopfake_data.json", "w", encoding="utf-8") as file:
+        #     json.dump(json_data, file, indent=4, ensure_ascii=False)
+        # if article_date
 
 
-# def parse_main_pages():
-#     # json_data = json.loads("{}")
-#     # with open("stopfake_data.json", "w", encoding="utf-8") as file:
-#     #     json.dump(json_data, file, indent=4, ensure_ascii=False)
-#
-#     urls_article = []
-#     n_article = -1
-#     try:
-#         last_article = db.session.query(Article).order_by(Article.id.desc()).first()
-#         max_id_pos_start = str(last_article).find("id=")
-#         max_id_pos_end = str(last_article).find("title=")
-#         max_id = str(last_article)[max_id_pos_start + 3: max_id_pos_end - 2]
-#         max_id = int(max_id) + 1
-#     except ValueError:
-#         max_id = 1
-#     print("max_id", max_id)
-#     # db.session.query(func.max(Article.id))
-#     for n_page in range(9, NUMBER_PAGES):
-#         print("n_page", n_page + 1)
-#         if n_page + 1 == 1:
-#             url = MAIN_URL
-#
-#         else:
-#             url = MAIN_URL_PAGE_FROM2 + str(n_page + 1) + '/'
-#
-#         html_page = cache_page(url, "html_pages", "html_pages_stopfake")
-#         soup = BeautifulSoup(html_page, 'html.parser')
-#         all_articles = soup.find_all("article")
-#         flag_video = 0
-#
-#         # with open("stopfake_data.json", "r", encoding="utf-8") as file:
-#         #     json_data = json.load(file)
-#
-#         for article in all_articles:
-#             all_span = article.find_all("span", {"class": "post-category"})
-#             # print(all_span)
-#             n_article += 1
-#             for span in all_span:
-#                 if "Відео" in str(span):
-#                     flag_video = 1
-#                     break
-#
-#             if flag_video == 1:
-#                 flag_video = 0
-#                 continue
-#
-#             all_a = article.find_all("a")
-#             url_article = all_a[0].get("href")
-#             urls_article.append(url_article)
-#             print()
-#             article_title, article_date = parse_article_pages(url_article)
-#             print("article_title", article_title)
-#             if db.session.query(Article.id).filter_by(title=article_title).scalar() is not None:
-#                 print("Found in db")
-#                 continue
-#
-#             resource_end_pos = url_article.find("/uk")
-#             resource = url_article[:resource_end_pos + 3]
-#
-#             str_n_article = str(n_article)
-#             # json_data[str_n_article] = {}
-#             # json_data[str_n_article]["title"] = article_title
-#             # json_data[str_n_article]["date"] = article_date
-#             # json_data[str_n_article]["url_article"] = url_article
-#             new_article = Article(id=max_id,
-#                                   title=article_title,
-#                                   date=article_date,
-#                                   resource=resource,
-#                                   url=url_article)
-#
-#             max_id += 1
-#
-#             db.session.add(new_article)
-#             db.session.flush()
-#
-#         db.session.commit()
-#
-#         # with open("stopfake_data.json", "w", encoding="utf-8") as file:
-#         #     json.dump(json_data, file, indent=4, ensure_ascii=False)
-#
-#
-# def parse_article_pages(url):
-#     html_page = cache_page(url, "html_pages", os.path.join("html_pages_stopfake",
-#                                                            "html_stopfake_articles"))
-#     soup = BeautifulSoup(html_page, 'html.parser')
-#
-#     all_h1 = soup.find_all("h1", {"class": "entry-title"})
-#     title = all_h1[0].string
-#
-#     all_span = soup.find_all("span", {"class": "post-date date updated"})
-#     date = all_span[0].string
-#
-#     return title, date
+def parse_article_pages(url):
+    html_page = requests.get(url).text
+
+    soup = BeautifulSoup(html_page, 'html.parser')
+
+    try:
+        all_title = soup.find_all("h1", {"class": "entry-title"})
+        title = BeautifulSoup(str(all_title[0]), "lxml").text
+    except IndexError as error:
+        print("error", error)
+        title = ""
+
+    try:
+        all_span = soup.find_all("span", {"class": "et_pb_post_date"})
+        date = BeautifulSoup(str(all_span[0]), "lxml").text
+    except IndexError as error:
+        print("error", error)
+        date = ""
+
+    try:
+        all_text = soup.find_all("div", {"class": "entry-content"})
+        clean_text = BeautifulSoup(str(all_text[0]), "lxml").text
+    except IndexError as error:
+        print("error", error)
+        clean_text = ""
+
+    return title, date, clean_text
 
 
 if __name__ == '__main__':
-    print(cache_page(MAIN_URL, "html_pages", "html_pages_obozrevatel"))
+    parse_main_pages()
