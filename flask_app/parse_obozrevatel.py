@@ -1,16 +1,11 @@
 import json
 import sqlite3
-import time
-
-import boto3
-import requests
-import os
 
 import sqlalchemy
-from googletrans import Translator
-from slugify import slugify
-from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+# from googletrans import Translator
+# from slugify import slugify
+# from selenium import webdriver
+# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 import requests
 from bs4 import BeautifulSoup
@@ -153,49 +148,49 @@ def get_html_pages(url_main, driver, urls_dict):
     return urls_dict
 
 
-def parse_all_main_pages():
-    binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe")
-    driver = webdriver.Firefox(firefox_binary=binary,
-                               executable_path=r'C:\Program Files\geckodriver-v0.26.0-win64\\geckodriver.exe')
-    start_date = date(2019, 1, 1)
-    end_date = date(2020, 5, 14)
-
-    urls_dict = dict()
-    urls_dict["urls_explorer"] = []
-    get_html_pages(MAIN_URL, driver, urls_dict)
-
-    for n_main_page, single_date in enumerate(daterange(start_date, end_date)):
-        print("n_main_page", n_main_page)
-        date_page = single_date.strftime("%d-%m-%Y")
-        url_main = MAIN_URL2 + date_page + ".htm"
-        urls_dict = get_html_pages(url_main, driver, urls_dict)
-
-        if len(urls_dict["urls_explorer"]) >= 2000:
-            urls_1 = dict()
-            urls_1["urls_explorer"] = urls_dict["urls_explorer"][:2000]
-            with open("links_explorer_articles.json", "w", encoding="utf-8") as file:
-                json.dump(urls_1, file, indent=4)
-
-            if len(urls_dict["urls_explorer"]) <= 4000:
-                urls_1["urls_explorer"] = urls_dict["urls_explorer"][2000:]
-                with open("links_explorer_articles2.json", "w", encoding="utf-8") as file:
-                    json.dump(urls_1, file, indent=4)
-
-            elif 4000 < len(urls_dict["urls_explorer"]):
-                urls_1["urls_explorer"] = urls_dict["urls_explorer"][2000:4000]
-                with open("links_explorer_articles2.json", "w", encoding="utf-8") as file:
-                    json.dump(urls_1, file, indent=4)
-
-                urls_1["urls_explorer"] = urls_dict["urls_explorer"][4000:]
-                with open("links_explorer_articles3.json", "w", encoding="utf-8") as file:
-                    json.dump(urls_1, file, indent=4)
-
-        else:
-            with open("links_explorer_articles.json", "w", encoding="utf-8") as file:
-                json.dump(urls_dict, file, indent=4)
-
-        if len(urls_dict["urls_explorer"]) >= 5000:
-            break
+# def parse_all_main_pages():
+#     binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe")
+#     driver = webdriver.Firefox(firefox_binary=binary,
+#                                executable_path=r'C:\Program Files\geckodriver-v0.26.0-win64\\geckodriver.exe')
+#     start_date = date(2019, 1, 1)
+#     end_date = date(2020, 5, 14)
+#
+#     urls_dict = dict()
+#     urls_dict["urls_explorer"] = []
+#     get_html_pages(MAIN_URL, driver, urls_dict)
+#
+#     for n_main_page, single_date in enumerate(daterange(start_date, end_date)):
+#         print("n_main_page", n_main_page)
+#         date_page = single_date.strftime("%d-%m-%Y")
+#         url_main = MAIN_URL2 + date_page + ".htm"
+#         urls_dict = get_html_pages(url_main, driver, urls_dict)
+#
+#         if len(urls_dict["urls_explorer"]) >= 2000:
+#             urls_1 = dict()
+#             urls_1["urls_explorer"] = urls_dict["urls_explorer"][:2000]
+#             with open("links_explorer_articles.json", "w", encoding="utf-8") as file:
+#                 json.dump(urls_1, file, indent=4)
+#
+#             if len(urls_dict["urls_explorer"]) <= 4000:
+#                 urls_1["urls_explorer"] = urls_dict["urls_explorer"][2000:]
+#                 with open("links_explorer_articles2.json", "w", encoding="utf-8") as file:
+#                     json.dump(urls_1, file, indent=4)
+#
+#             elif 4000 < len(urls_dict["urls_explorer"]):
+#                 urls_1["urls_explorer"] = urls_dict["urls_explorer"][2000:4000]
+#                 with open("links_explorer_articles2.json", "w", encoding="utf-8") as file:
+#                     json.dump(urls_1, file, indent=4)
+#
+#                 urls_1["urls_explorer"] = urls_dict["urls_explorer"][4000:]
+#                 with open("links_explorer_articles3.json", "w", encoding="utf-8") as file:
+#                     json.dump(urls_1, file, indent=4)
+#
+#         else:
+#             with open("links_explorer_articles.json", "w", encoding="utf-8") as file:
+#                 json.dump(urls_dict, file, indent=4)
+#
+#         if len(urls_dict["urls_explorer"]) >= 5000:
+#             break
 
 
 if __name__ == '__main__':
