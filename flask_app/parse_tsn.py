@@ -1,15 +1,15 @@
 import json
 import sqlite3
-import time
-
-import boto3
-import requests
-import os
+# import time
+#
+# import boto3
+# import requests
+# import os
 
 import sqlalchemy
-from googletrans import Translator
-from slugify import slugify
-from selenium import webdriver
+# from googletrans import Translator
+# from slugify import slugify
+# from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 import requests
@@ -95,66 +95,66 @@ def parse_all_pages(filename):
             continue
 
 
-def get_html_pages():
-    binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe")
-    driver = webdriver.Firefox(firefox_binary=binary,
-                               executable_path=r'C:\Program Files\geckodriver-v0.26.0-win64\\geckodriver.exe')
-    driver.get(MAIN_URL)
-
-    flag_error = 0
-
-    i = 0
-    while flag_error != 1:
-        urls_dict = dict()
-        urls_dict["urls_tsn"] = []
-        try:
-            html = driver.page_source
-            # links = driver.find_element_by_class_name('u-url u-uid c-post-img-wrap')
-            links = driver.find_elements_by_class_name('u-url.u-uid.c-post-img-wrap')
-            # soup = BeautifulSoup(html, 'html.parser')
-            # links = soup.find_all("div", {"class": "c-entry-embed"})
-            # print(links)
-
-            for link in links:
-                url_article = link.get_attribute('href')
-                print(url_article)
-                urls_dict["urls_tsn"].append(url_article)
-
-            # other_page_move = driver.find_element_by_class_name('btn btn-default btn-lg').click()
-            other_page_move = driver.find_element_by_css_selector('a.btn.btn-default.btn-lg').click()
-        except:
-            flag_error = 1
-
-        i += 1
-        if len(urls_dict["urls_tsn"]) >= 2000:
-            urls_1 = dict()
-            urls_1["urls_tsn"] = urls_dict["urls_tsn"][:2000]
-            with open("links_tsn_articles.json", "w", encoding="utf-8") as file:
-                json.dump(urls_1, file, indent=4)
-
-            if len(urls_dict["urls_tsn"]) <= 4000:
-                urls_1["urls_tsn"] = urls_dict["urls_tsn"][2000:]
-                with open("links_tsn_articles2.json", "w", encoding="utf-8") as file:
-                    json.dump(urls_1, file, indent=4)
-
-            elif 4000 < len(urls_dict["urls_tsn"]):
-                urls_1["urls_tsn"] = urls_dict["urls_tsn"][2000:4000]
-                with open("links_tsn_articles2.json", "w", encoding="utf-8") as file:
-                    json.dump(urls_1, file, indent=4)
-
-                urls_1["urls_tsn"] = urls_dict["urls_tsn"][4000:]
-                with open("links_tsn_articles3.json", "w", encoding="utf-8") as file:
-                    json.dump(urls_1, file, indent=4)
-
-        else:
-            with open("links_tsn_articles.json", "w", encoding="utf-8") as file:
-                json.dump(urls_dict, file, indent=4)
-
-        if len(urls_dict["urls_tsn"]) >= 5000:
-            break
-        #
-        # if i == 1:
-        #     break
+# def get_html_pages():
+#     binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe")
+#     driver = webdriver.Firefox(firefox_binary=binary,
+#                                executable_path=r'C:\Program Files\geckodriver-v0.26.0-win64\\geckodriver.exe')
+#     driver.get(MAIN_URL)
+#
+#     flag_error = 0
+#
+#     i = 0
+#     while flag_error != 1:
+#         urls_dict = dict()
+#         urls_dict["urls_tsn"] = []
+#         try:
+#             html = driver.page_source
+#             # links = driver.find_element_by_class_name('u-url u-uid c-post-img-wrap')
+#             links = driver.find_elements_by_class_name('u-url.u-uid.c-post-img-wrap')
+#             # soup = BeautifulSoup(html, 'html.parser')
+#             # links = soup.find_all("div", {"class": "c-entry-embed"})
+#             # print(links)
+#
+#             for link in links:
+#                 url_article = link.get_attribute('href')
+#                 print(url_article)
+#                 urls_dict["urls_tsn"].append(url_article)
+#
+#             # other_page_move = driver.find_element_by_class_name('btn btn-default btn-lg').click()
+#             other_page_move = driver.find_element_by_css_selector('a.btn.btn-default.btn-lg').click()
+#         except:
+#             flag_error = 1
+#
+#         i += 1
+#         if len(urls_dict["urls_tsn"]) >= 2000:
+#             urls_1 = dict()
+#             urls_1["urls_tsn"] = urls_dict["urls_tsn"][:2000]
+#             with open("links_tsn_articles.json", "w", encoding="utf-8") as file:
+#                 json.dump(urls_1, file, indent=4)
+#
+#             if len(urls_dict["urls_tsn"]) <= 4000:
+#                 urls_1["urls_tsn"] = urls_dict["urls_tsn"][2000:]
+#                 with open("links_tsn_articles2.json", "w", encoding="utf-8") as file:
+#                     json.dump(urls_1, file, indent=4)
+#
+#             elif 4000 < len(urls_dict["urls_tsn"]):
+#                 urls_1["urls_tsn"] = urls_dict["urls_tsn"][2000:4000]
+#                 with open("links_tsn_articles2.json", "w", encoding="utf-8") as file:
+#                     json.dump(urls_1, file, indent=4)
+#
+#                 urls_1["urls_tsn"] = urls_dict["urls_tsn"][4000:]
+#                 with open("links_tsn_articles3.json", "w", encoding="utf-8") as file:
+#                     json.dump(urls_1, file, indent=4)
+#
+#         else:
+#             with open("links_tsn_articles.json", "w", encoding="utf-8") as file:
+#                 json.dump(urls_dict, file, indent=4)
+#
+#         if len(urls_dict["urls_tsn"]) >= 5000:
+#             break
+#         #
+#         # if i == 1:
+#         #     break
 
 
 if __name__ == '__main__':
