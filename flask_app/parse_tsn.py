@@ -45,8 +45,12 @@ def parse_all_pages(filename):
                                                    "Gecko/20100101 Firefox/74.0"}).text
         soup = BeautifulSoup(html_page, 'html.parser')
 
-        all_h = soup.find_all("h1", {"class": "p-name c-post-title u-uppercase js-si-title"})
-        article_title = all_h[0].string
+        try:
+            all_h = soup.find_all("h1", {"class": "p-name c-post-title u-uppercase js-si-title"})
+            article_title = all_h[0].string
+        except:
+            continue
+
         print()
         print("article_title", article_title)
         try:
@@ -60,14 +64,24 @@ def parse_all_pages(filename):
         except sqlalchemy.exc.IntegrityError:
             continue
 
-        all_div = soup.find_all("div", {"class": "e-content"})
-        article_text = all_div[0]
-        article_text = BeautifulSoup(str(article_text).strip(), "lxml").text
-        article_text = str(article_text).strip()
+        try:
+            all_div = soup.find_all("div", {"class": "e-content"})
+            article_text = all_div[0]
+            article_text = BeautifulSoup(str(article_text).strip(), "lxml").text
+            article_text = str(article_text).strip()
+
+        except:
+            article_text = ""
+
         print("article_text", article_text)
 
-        article_date = soup.find_all("time", {"class": "dt-published c-post-time"})[0].get("datetime")
-        article_date = str(article_date).strip()
+        try:
+            article_date = soup.find_all("time", {"class": "dt-published c-post-time"})[0].get("datetime")
+            article_date = str(article_date).strip()
+
+        except:
+            article_date = ""
+
         print("article_date", article_date)
 
         resource = "https://tsn.ua/"
