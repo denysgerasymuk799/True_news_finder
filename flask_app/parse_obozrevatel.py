@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import time
 
 import sqlalchemy
 # from googletrans import Translator
@@ -12,11 +13,34 @@ from bs4 import BeautifulSoup
 from datetime import timedelta, date
 
 # from flask_app.app import db, Article
-from flask_app.app import Article, db
-from site_parse.parse_true_sites.parse_tsn import translate_title
+from app import Article, db
+from googletrans import Translator
+
+# from site_parse.parse_true_sites.parse_tsn import translate_title
 
 MAIN_URL = "https://www.obozrevatel.com/main-item.htm?utm_source=obozrevatel&utm_medium=self_promo&utm_campaign=mi_header_btn"
 MAIN_URL2 = "https://www.obozrevatel.com/main-item/"
+
+
+def translate_title(article_title):
+    translator = Translator()
+    try:
+        src_lang = translator.translate(article_title).src
+    except json.decoder.JSONDecodeError:
+        time.sleep(3)
+        translator = Translator()
+        src_lang = translator.translate(article_title).src
+
+    # REINITIALIZE THE API
+    translator = Translator()
+    try:
+        translated = translator.translate(article_title, src=src_lang, dest="en")
+        article_title_en = translated.text
+    except Exception as e:
+        print(str(e))
+        article_title_en = ""
+
+    return article_title_en
 
 
 def daterange(start_date, end_date):
