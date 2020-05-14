@@ -10,7 +10,7 @@ import sqlalchemy
 # from googletrans import Translator
 # from slugify import slugify
 # from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+# from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 import requests
 from bs4 import BeautifulSoup
