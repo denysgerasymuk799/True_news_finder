@@ -24,8 +24,8 @@ MAIN_URL_PAGE_FROM2 = "https://tsn.ua/ajax/show-more/news?page=1"
 NUMBER_PAGES = 78
 
 
-def parse_all_pages():
-    with open("links_tsn_articles.json", "r", encoding="utf-8") as file:
+def parse_all_pages(filename):
+    with open(filename, "r", encoding="utf-8") as file:
         urls_article = json.load(file)
 
     try:
@@ -72,33 +72,16 @@ def parse_all_pages():
 
         resource = "https://tsn.ua/"
 
-        translator = Translator()
-        try:
-            src_lang = translator.translate(article_title).src
-        except json.decoder.JSONDecodeError:
-            time.sleep(3)
-            translator = Translator()
-            src_lang = translator.translate(article_title).src
-
-        # REINITIALIZE THE API
-        translator = Translator()
-        try:
-            translated = translator.translate(article_title, src=src_lang, dest="en")
-            article_title_en = translated.text
-        except Exception as e:
-            print(str(e))
-            article_title_en = ""
-
         new_article = Article(id=max_id,
                               title=article_title,
-                              title_en=article_title_en,
+                              title_en="",
                               text=article_text,
                               date=article_date,
                               resource=resource,
                               url=url)
 
         max_id += 1
-        print("article_title_en", article_title_en)
+        print("article_title_en", "")
 
         try:
             db.session.add(new_article)
@@ -176,5 +159,6 @@ def get_html_pages():
 
 if __name__ == '__main__':
     # print(cache_page(MAIN_URL2, "html_pages", "html_pages_tsn"))
-    get_html_pages()
-    # parse_all_pages()
+    # get_html_pages()
+    parse_all_pages("links_tsn_articles.json")
+    parse_all_pages("links_tsn_articles2.json")
