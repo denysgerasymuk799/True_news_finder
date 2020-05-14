@@ -84,8 +84,8 @@ def parse_all_pages(filename):
         print("article_title_en", "")
 
         try:
-            db.session.add(new_article)
             db.session.rollback()
+            db.session.add(new_article)
             db.session.commit()
             db.session.flush()
             db.create_all()
