@@ -7,11 +7,13 @@ from bs4 import BeautifulSoup
 
 from app import db, Article, ArticleFakeChecker2
 
+from site_parse.parse_true_sites.parse_tsn import translate_title
+
 MAIN_URL = "https://euvsdisinfo.eu/news/"
 MAIN_URL_PAGE_FROM2 = "https://euvsdisinfo.eu/news/page/"
 
 
-def parse_main_pages():
+def parse_main_pages(site_name, url_main, url_page2, class_articles, class_title, class_date, class_text):
     try:
         last_article = db.session.query(ArticleFakeChecker2).order_by(ArticleFakeChecker2.id.desc()).first()
         max_id_pos_start = str(last_article).find("id=")
@@ -29,10 +31,14 @@ def parse_main_pages():
         article_date = ""
         print("n_page", n_page)
         if n_page == 1:
-            url = MAIN_URL
+            url = url_main
 
         else:
-            url = MAIN_URL_PAGE_FROM2 + str(n_page + 1) + '/'
+            if site_name == "obozrevatel":
+                url = url_page2 + str(n_page + 1) + '/'
+
+            else:
+                url = url_page2 + str(n_page + 1) + '/'
 
         html_page = requests.get(url,
                                  headers={
@@ -47,7 +53,8 @@ def parse_main_pages():
             print()
             url_article = article.get("href")
 
-            article_title, article_date, article_text = parse_article_pages(url_article)
+            article_title, article_date, article_text = parse_article_pages(url_article, class_title, class_date,
+                                                                            class_text)
             article_text = str(article_text).strip()
             print("article_title", article_title)
             try:
@@ -61,18 +68,34 @@ def parse_main_pages():
             except sqlalchemy.exc.IntegrityError:
                 continue
 
-            resource = "https://euvsdisinfo.eu/"
+            if site_name == "euvsdisinfo":
+                resource = "https://euvsdisinfo.eu/"
+
+                new_article = ArticleFakeChecker2(id=max_id,
+                                                  title=article_title,
+                                                  title_en=article_title,
+                                                  text=article_text,
+                                                  date=article_date,
+                                                  resource=resource,
+                                                  url=url_article)
+            elif site_name == "obozrevatel":
+                resource = "https://www.obozrevatel.com/"
+
+                if article_title != "":
+                    article_title_en = translate_title(article_title)
+                else:
+                    article_title_en = ""
+
+                new_article = Article(id=max_id,
+                                      title=article_title,
+                                      title_en=article_title_en,
+                                      text=article_text,
+                                      date=article_date,
+                                      resource=resource,
+                                      url=url)
+
             print("article_text", article_text)
             print("article_date", article_date)
-
-            new_article = ArticleFakeChecker2(id=max_id,
-                                              title=article_title,
-                                              title_en=article_title,
-                                              text=article_text,
-                                              date=article_date,
-                                              resource=resource,
-                                              url=url_article)
-
             max_id += 1
 
             try:
@@ -99,27 +122,27 @@ def parse_main_pages():
         # if article_date
 
 
-def parse_article_pages(url):
+def parse_article_pages(url, class_title, class_date, class_text):
     html_page = requests.get(url).text
 
     soup = BeautifulSoup(html_page, 'html.parser')
 
     try:
-        all_title = soup.find_all("h1", {"class": "entry-title"})
+        all_title = soup.find_all("h1", {"class": class_title})
         title = BeautifulSoup(str(all_title[0]), "lxml").text
     except IndexError as error:
         print("error", error)
         title = ""
 
     try:
-        all_span = soup.find_all("span", {"class": "et_pb_post_date"})
+        all_span = soup.find_all("span", {"class": class_date})
         date = BeautifulSoup(str(all_span[0]), "lxml").text
     except IndexError as error:
         print("error", error)
         date = ""
 
     try:
-        all_text = soup.find_all("div", {"class": "entry-content"})
+        all_text = soup.find_all("div", {"class": class_text})
         clean_text = BeautifulSoup(str(all_text[0]), "lxml").text
     except IndexError as error:
         print("error", error)
@@ -129,4 +152,5 @@ def parse_article_pages(url):
 
 
 if __name__ == '__main__':
+    class_title, class_date, class_text = "entry-title", "et_pb_post_date", "entry-content"
     parse_main_pages()

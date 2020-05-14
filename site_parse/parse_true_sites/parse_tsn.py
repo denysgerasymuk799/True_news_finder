@@ -24,12 +24,32 @@ MAIN_URL_PAGE_FROM2 = "https://tsn.ua/ajax/show-more/news?page=1"
 NUMBER_PAGES = 78
 
 
+def translate_title(article_title):
+    translator = Translator()
+    try:
+        src_lang = translator.translate(article_title).src
+    except json.decoder.JSONDecodeError:
+        time.sleep(3)
+        translator = Translator()
+        src_lang = translator.translate(article_title).src
+
+    # REINITIALIZE THE API
+    translator = Translator()
+    try:
+        translated = translator.translate(article_title, src=src_lang, dest="en")
+        article_title_en = translated.text
+    except Exception as e:
+        print(str(e))
+        article_title_en = ""
+
+    return article_title_en
+
+
 def parse_all_pages():
     # json_data = json.loads("{}")
     with open("links_tsn_articles.json", "r", encoding="utf-8") as file:
         urls_article = json.load(file)
 
-    n_article = -1
     try:
         last_article = db.session.query(Article).order_by(Article.id.desc()).first()
         max_id_pos_start = str(last_article).find("id=")
@@ -73,22 +93,7 @@ def parse_all_pages():
 
         resource = "https://tsn.ua/"
 
-        translator = Translator()
-        try:
-            src_lang = translator.translate(article_title).src
-        except json.decoder.JSONDecodeError:
-            time.sleep(3)
-            translator = Translator()
-            src_lang = translator.translate(article_title).src
-
-        # REINITIALIZE THE API
-        translator = Translator()
-        try:
-            translated = translator.translate(article_title, src=src_lang, dest="en")
-            article_title_en = translated.text
-        except Exception as e:
-            print(str(e))
-            article_title_en = ""
+        article_title_en = translate_title(article_title)
 
         new_article = Article(id=max_id,
                               title=article_title,
@@ -101,16 +106,16 @@ def parse_all_pages():
         max_id += 1
         print("article_title_en", article_title_en)
 
-        try:
-            db.session.add(new_article)
-            db.session.rollback()
-            db.session.commit()
-            db.session.flush()
-            db.create_all()
-        except sqlalchemy.exc.IntegrityError:
-            continue
-        except sqlalchemy.exc.DataError:
-            continue
+        # try:
+        #     db.session.add(new_article)
+        #     db.session.rollback()
+        #     db.session.commit()
+        #     db.session.flush()
+        #     db.create_all()
+        # except sqlalchemy.exc.IntegrityError:
+        #     continue
+        # except sqlalchemy.exc.DataError:
+        #     continue
 
 
 def get_html_pages():

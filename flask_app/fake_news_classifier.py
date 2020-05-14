@@ -58,31 +58,29 @@ def get_tests_results():
     # Reading data as pandas dataframe
     temp_dir = os.getcwd()
     os.chdir("..")
-    frame = pd.read_csv(os.path.join(os.getcwd(), 'fake_or_real_news.csv'), error_bad_lines=False)
+    # my_frame = pd.read_csv(os.path.join(os.getcwd(), '.ipynb_checkpoints', 'fake_or_real_news.csv'), error_bad_lines=False)
     my_frame = pd.read_csv(os.path.join(os.getcwd(), '.ipynb_checkpoints', 'train_model.csv'), error_bad_lines=False)
     my_test_frame = pd.read_csv(os.path.join(os.getcwd(), '.ipynb_checkpoints', 'my_test_model.csv'),
                                 error_bad_lines=False)
 
     # Inspecing Shape
-    frame.shape
+    # frame.shape
     my_frame.shape
 
-    y = frame.label
+    # y = frame.label
 
     my_y = my_frame.label
 
     my_test2_y = my_test_frame.label
 
-    frame.drop("label", axis=1)
+    # frame.drop("label", axis=1)
 
     my_frame.drop("label", axis=1)
 
     X_train, X_test, y_train, y_test = train_test_split(my_frame['text'], my_y,
-                                                        test_size=0.33, random_state=53)
+                                                        test_size=0.4, random_state=53)
 
     X_test[0], y_test[0] = my_test_frame['text'][0], my_test2_y[0]
-
-    X_test2, y_test2 = my_frame['text'], my_y
 
     # Building Vectorizer Classifiers
 
@@ -116,6 +114,7 @@ def get_tests_results():
 
     linear_clf2 = PassiveAggressiveClassifier()
 
+    print("X_test[0]", X_test[0])
     pred = linear_clf.predict(tfidf_test)
 
     print("pred", pred)
@@ -128,3 +127,7 @@ def get_tests_results():
 
     os.chdir(temp_dir)
     # return pred[0], score
+
+
+if __name__ == '__main__':
+    print(get_tests_results())

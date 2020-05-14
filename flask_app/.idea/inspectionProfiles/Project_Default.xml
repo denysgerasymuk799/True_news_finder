@@ -1,0 +1,47 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="text-align" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="12">
+            <item index="0" class="java.lang.String" itemvalue="Cython" />
+            <item index="1" class="java.lang.String" itemvalue="psutil" />
+            <item index="2" class="java.lang.String" itemvalue="six" />
+            <item index="3" class="java.lang.String" itemvalue="requests" />
+            <item index="4" class="java.lang.String" itemvalue="os-sys" />
+            <item index="5" class="java.lang.String" itemvalue="pprintpp" />
+            <item index="6" class="java.lang.String" itemvalue="configparser" />
+            <item index="7" class="java.lang.String" itemvalue="functools" />
+            <item index="8" class="java.lang.String" itemvalue="multiprocessing" />
+            <item index="9" class="java.lang.String" itemvalue="certifi" />
+            <item index="10" class="java.lang.String" itemvalue="Flask" />
+            <item index="11" class="java.lang.String" itemvalue="beautifulsoup4" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="urllib.parse.quote_plus" />
+          <option value="typing.Iterator.__getitem__" />
+          <option value="list.find" />
+          <option value="str.endwith" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="Pylint" enabled="true" level="WARNING" enabled_by_default="true" />
+  </profile>
+</component>

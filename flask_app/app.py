@@ -3,7 +3,7 @@ import os
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 
-from my_config import Config
+from flask_app.my_config import Config
 
 app = Flask(__name__)
 

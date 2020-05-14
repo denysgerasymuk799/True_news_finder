@@ -46,6 +46,7 @@ def main(user_title):
         # n_articles = int(max_id) + 1
 
         for article_id in range(1, n_articles):
+            print("article_id", article_id)
             article_from_db = ''
             if table_name == "ArticleFakeChecker2":
                 article_from_db = ArticleFakeChecker2.query.filter_by(id=article_id).first()
@@ -57,41 +58,40 @@ def main(user_title):
                 start_key_words = str(article_from_db.key_words).find("key_words=") + 10
                 end_key_words = str(article_from_db.key_words).find("key_words>") - 1
                 key_words_article = str(article_from_db.key_words)[start_key_words: end_key_words]
-                # article_title_from_db = ' '.join(str(key_words_article).split(", "))
+                article_title_from_db = ' '.join(str(key_words_article).split(", "))
 
-                # same_articles_num = cosine_sim(user_title, article_title_from_db)
-                n_same_words = 0
+                same_articles_num = cosine_sim(user_title, article_title_from_db)
+                # n_same_words = 0
+                #
+                # flag_same_articles = 0
+                # article_title_from_db = str(article_from_db.title)
+                # same_words = []
+                #
+                # for word in key_words_article.split():
+                #     if word in user_title:
+                #         n_same_words += 1
+                #         same_words.append(word)
+                #
+                #     if n_same_words >= 2:
+                #         flag_same_articles = 1
+                #         break
 
-                flag_same_articles = 0
-                article_title_from_db = str(article_from_db.title)
-                same_words = []
+                print()
+                print("article_title_from_db", article_title_from_db)
+                print(article_from_db.title_en)
+                print("same_articles_num", same_articles_num)
+                # if flag_same_articles == 1:
 
-                for word in key_words_article.split():
-                    if word in user_title:
-                        n_same_words += 1
-                        same_words.append(word)
-
-                    if n_same_words >= 2:
-                        flag_same_articles = 1
-                        break
-
-                # print()
-                # print("article_title_from_db", article_title_from_db)
-                # print(article_from_db.title_en)
-                # print("same_articles_num", same_articles_num)
-                if flag_same_articles == 1:
-
-                    # if same_articles_num >= 0.2:
+                if same_articles_num >= 0.26:
+                    print("same article", article_from_db.title, article_from_db.url)
                     if not isinstance(same_articles, LinkedList):
                         same_articles = LinkedList(article_from_db.title,
-                                                   same_words,
                                                    article_from_db.date,
                                                    article_from_db.url,
                                                    article_from_db.resource)
 
                     else:
                         same_articles.add(article_from_db.title,
-                                          same_words,
                                           article_from_db.date,
                                           article_from_db.url,
                                           article_from_db.resource)
@@ -132,34 +132,11 @@ def main(user_title):
 
     # print("user_title_key_words", user_title)
     same_articles, list_same = get_data_from_db(user_title_key_words, "ArticleFakeChecker2")
+
     same_articles, list_same = get_data_from_db(user_title_key_words, "Article", same_articles, list_same)
     print(same_articles)
     # print(list_same)
 
 
 if __name__ == '__main__':
-    main()
-    # print((articles_json["-2"]["title"], articles_json["-1"]["title"]))
-    # print(cosine_sim(articles_json["-2"]["title"], articles_json["-1"]["title"]))
-    # print(cosine_sim(articles_json["-2"]["text"], articles_json["-1"]["text"]))
-    # print((articles_json["-4"]["title"], articles_json["-1"]["title"]))
-    # print(cosine_sim(articles_json["-4"]["title"], articles_json["-1"]["title"]))
-    # --------
-    # print((articles_json["-5"]["title"], articles_json["-5"]["text"]))
-    # print(cosine_sim(articles_json["-5"]["title"], articles_json["-5"]["text"]))
-    #
-    # print((articles_json["-5"]["text1"], articles_json["-5"]["text2"]))
-    # print(cosine_sim(articles_json["-5"]["text1"], articles_json["-5"]["text2"]))
-    #
-    # print((articles_json["-5"]["title"], articles_json["-5"]["text1"]))
-    # print(cosine_sim(articles_json["-5"]["title"], articles_json["-5"]["text1"]))
-    #
-    # print("-" * 30)
-    #
-    # print((articles_json["-7"]["title"], articles_json["-7"]["text1"]))
-    # print(cosine_sim(articles_json["-7"]["title"], articles_json["-7"]["text1"]))
-    # print(cosine_sim(articles_json["-7"]["title"], articles_json["-7"]["text"]))
-    # print(cosine_sim(articles_json["-7"]["text2"], articles_json["-7"]["text3"]))
-    #
-    # print(cosine_sim(articles_json["-3"]["text"], articles_json["-1"]["text"]))
-    # print("test.json other article topic", cosine_sim(articles_json["-4"]["text"], articles_json["-1"]["text"]))
+    main("Кремль готує росіян до повернення Криму Україні?")
