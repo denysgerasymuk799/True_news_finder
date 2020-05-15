@@ -88,15 +88,12 @@ def parse_main_pages():
         if str(article_date).split(", ")[-1].strip() == "2018" or n_page >= 700:
             flag_old_news = 1
 
-        # try:
-        #     db.session.rollback()
-        #     db.session.commit()
-        #     db.create_all()
-        # except sqlalchemy.exc.IntegrityError:
-        #     continue
-        # with open("stopfake_data.json", "w", encoding="utf-8") as file:
-        #     json.dump(json_data, file, indent=4, ensure_ascii=False)
-        # if article_date
+        try:
+            db.session.rollback()
+            db.session.commit()
+            db.create_all()
+        except sqlalchemy.exc.IntegrityError:
+            continue
 
 
 def parse_article_pages(url):
