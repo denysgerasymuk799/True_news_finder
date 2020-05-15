@@ -29,7 +29,7 @@ def parse_main_pages():
     n_article = -1
 
     print("max_id", max_id)
-    for n_page in range(20, NUMBER_PAGES):
+    for n_page in range(111, NUMBER_PAGES):
         print("n_page", n_page + 1)
         if n_page + 1 == 1:
             url = MAIN_URL
@@ -45,6 +45,7 @@ def parse_main_pages():
                                    "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
                                                  "Gecko/20100101 Firefox/74.0"})).strip() != "<Response [200]>":
             time.sleep(3)
+
             stop_requests += 1
             if stop_requests == 10:
                 print()
@@ -93,22 +94,22 @@ def parse_main_pages():
             except sqlalchemy.exc.IntegrityError:
                 continue
 
-            translator = Translator()
-            try:
-                src_lang = translator.translate(article_title).src
-            except json.decoder.JSONDecodeError:
-                time.sleep(3)
-                translator = Translator()
-                src_lang = translator.translate(article_title).src
-
-            # REINITIALIZE THE API
-            translator = Translator()
-            try:
-                translated = translator.translate(article_title, src=src_lang, dest="en")
-                article_title_en = translated.text
-            except Exception as e:
-                print(str(e))
-                article_title_en = ""
+            # translator = Translator()
+            # try:
+            #     src_lang = translator.translate(article_title).src
+            # except json.decoder.JSONDecodeError:
+            #     time.sleep(3)
+            #     translator = Translator()
+            #     src_lang = translator.translate(article_title).src
+            #
+            # # REINITIALIZE THE API
+            # translator = Translator()
+            # try:
+            #     translated = translator.translate(article_title, src=src_lang, dest="en")
+            #     article_title_en = translated.text
+            # except Exception as e:
+            #     print(str(e))
+            article_title_en = ""
 
             resource_end_pos = url_article.find("/ua")
             resource = url_article[:resource_end_pos + 3]
