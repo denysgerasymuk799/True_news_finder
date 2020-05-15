@@ -8,7 +8,7 @@ from googletrans import Translator
 import requests
 from bs4 import BeautifulSoup
 
-from flask_app.app import db, Article
+from app import db, Article
 
 MAIN_URL = "https://fakty.com.ua/ua/news/"
 MAIN_URL_PAGE_FROM2 = "https://fakty.com.ua/ua/news/page/"
