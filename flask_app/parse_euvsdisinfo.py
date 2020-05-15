@@ -37,7 +37,7 @@ def parse_main_pages():
         html_page = requests.get(url,
                                  headers={
                                      "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
-                                                   "Gecko/20100101 Firefox/74.0"}, verify=False).text
+                                                   "Gecko/20100101 Firefox/74.0"}).text
 
         soup = BeautifulSoup(html_page, 'html.parser')
         all_articles = soup.find_all("a", {"class": "b-post__link"})
