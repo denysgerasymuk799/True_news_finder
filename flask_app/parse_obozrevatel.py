@@ -208,6 +208,6 @@ def get_html_pages(url_main, driver, urls_dict):
 
 if __name__ == '__main__':
     # parse_all_main_pages()
-    for i in range(1, 19):
+    for i in range(14, 19):
         filename = "links_explorer_articles{}.json".format(str(i))
         parse_all_pages(filename)
