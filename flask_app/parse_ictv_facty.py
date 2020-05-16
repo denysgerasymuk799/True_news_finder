@@ -29,7 +29,7 @@ def parse_main_pages():
     n_article = -1
 
     print("max_id", max_id)
-    for n_page in range(111, NUMBER_PAGES):
+    for n_page in range(382, NUMBER_PAGES):
         print("n_page", n_page + 1)
         if n_page + 1 == 1:
             url = MAIN_URL
@@ -40,7 +40,10 @@ def parse_main_pages():
         stop_requests = 0
         flag_bad_request_for_page = 0
 
-        while str(requests.get(url,
+        session = requests.Session()
+        session.max_redirects = 60
+
+        while str(session.get(url,
                                headers={
                                    "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
                                                  "Gecko/20100101 Firefox/74.0"})).strip() != "<Response [200]>":
@@ -49,14 +52,14 @@ def parse_main_pages():
             stop_requests += 1
             if stop_requests == 10:
                 print()
-                print("error!!!!!!!!!!!!!!!", requests.get(url))
+                print("error!!!!!!!!!!!!!!!", session.get(url))
                 flag_bad_request_for_page = 1
                 break
 
         if flag_bad_request_for_page == 1:
             continue
 
-        html_page = requests.get(url,
+        html_page = session.get(url,
                                  headers={
                                      "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
                                                    "Gecko/20100101 Firefox/74.0"}).text
@@ -81,6 +84,9 @@ def parse_main_pages():
             url_article = span.get("href")
             print()
             article_title, article_date, article_text = parse_article_pages(url_article)
+            if article_title is None:
+                continue
+
             article_text = str(article_text).strip()
             print("article_title", article_title)
             try:
@@ -144,7 +150,12 @@ def parse_main_pages():
 
 
 def parse_article_pages(url):
-    html_page = requests.get(url).text
+    session = requests.Session()
+    session.max_redirects = 60
+    try:
+        html_page = session.get(url).text
+    except requests.exceptions.TooManyRedirects:
+        return None, None, None
 
     soup = BeautifulSoup(html_page, 'html.parser')
 
