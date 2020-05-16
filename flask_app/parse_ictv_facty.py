@@ -12,7 +12,7 @@ from app import db, Article
 
 MAIN_URL = "https://fakty.com.ua/ua/news/"
 MAIN_URL_PAGE_FROM2 = "https://fakty.com.ua/ua/news/page/"
-NUMBER_PAGES = 1000
+NUMBER_PAGES = 800
 
 
 def parse_main_pages():
