@@ -1,5 +1,1 @@
-{
-  "scripts": {
-    "start": "cd flask_app && web: gunicorn app:app"
-  }
-}
+web: gunicorn flask_app.app:app
