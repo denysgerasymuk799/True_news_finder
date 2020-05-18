@@ -7,9 +7,9 @@
         </ul>
 
         <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
-            <li class="cta"><a href=location.href()
+            <li class="cta"><a href="#sort_by_date"
                                                     class="nav-link"><span>Sort by Date</span></li>
-            <li class="cta"><a href="{{ url_for('get_sites') }}"
+            <li class="cta"><a href="#sort_by_similarity"
                                class="nav-link"><span>Sort by Similarity</span></a></li>
         </ul>
     </nav>
@@ -20,6 +20,14 @@
 		.article_data{
 			padding-left: 5%;
 		}
+
+        #sort_by_date{
+            margin-top: 10%;
+        }
+
+        #sort_by_date, #sort_by_similarity{
+            margin-left: 10%;
+        }
 	</style>
 
     <div class="site-section courses-title" id="courses-section">
@@ -32,8 +40,15 @@
             </div>
         </div>
 
-        <div id="sort_by_similarity" class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
-            <div class="container">
+    <div id="sort_by_similarity">
+        <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
+            <label  for="first_similarity" class="section-title">
+               Sorted by similarity
+            </label>
+            <p></p>
+            <p></p>
+            <p></p>
+            <div id="first_similarity" class="container">
                 <div class="col-12">
                 {% for article in articles %}
                     <div class="course bg-white mb-5">
@@ -57,9 +72,20 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="sort_by_date" class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
-            <div class="container">
+    <div id="sort_by_date">
+        <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
+            <p></p>
+            <p></p>
+            <p></p>
+            <label for="first_date" class="section-title">
+                Sorted by date
+            </label>
+            <p></p>
+            <p></p>
+            <p></p>
+            <div id="first_date" class="container">
                 <div class="col-12">
                 {% for article in articles2 %}
                     <div class="course bg-white mb-5">
@@ -83,6 +109,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 <script type="text/javascript">// <![CDATA[
     function loading() {
