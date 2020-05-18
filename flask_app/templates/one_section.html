@@ -1,0 +1,95 @@
+{% extends "index.html" %}
+{% block nav %}
+    <nav class="site-navigation position-relative text-right" role="navigation">
+        <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+            <li class="cta"><a href="{{ url_for('input_article') }}"
+                class="nav-link"><span>Input other article</span></a></li>
+        </ul>
+
+        <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+            <li class="cta"><a href=location.href()
+                                                    class="nav-link"><span>Sort by Date</span></li>
+            <li class="cta"><a href="{{ url_for('get_sites') }}"
+                               class="nav-link"><span>Sort by Similarity</span></a></li>
+        </ul>
+    </nav>
+{% endblock nav %}
+
+{% block content %}
+	<style>
+		.article_data{
+			padding-left: 5%;
+		}
+	</style>
+
+    <div class="site-section courses-title" id="courses-section">
+            <div class="container">
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
+                        <h3 class="section-title">Know the truth</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="sort_by_similarity" class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
+            <div class="container">
+                <div class="col-12">
+                {% for article in articles %}
+                    <div class="course bg-white mb-5">
+                        <div class="col-3">
+                            <figure class="m-0">
+                                <a href="{{ article['url'] }}">
+                                    <img src="{{ images_dict[article['resource']] }}"
+                                         class="img-fluid"></a>
+                            </figure>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 pt-4">
+                                <h3 class="article_data"><a href='https://www.obozrevatel.com/main-item/03-02-2019.htm'>{{ article['title'] }}</a></h3>
+                                <div class="article_data">Similarity - {{ article['similarity'] }}</div>
+                                <div class="article_data"><span class="icon-clock-o"></span>{{ article['date'] }}</div>
+                                <p class="article_data">{{ article['text'] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div id="sort_by_date" class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
+            <div class="container">
+                <div class="col-12">
+                {% for article in articles2 %}
+                    <div class="course bg-white mb-5">
+                        <div class="col-3">
+                            <figure class="m-0">
+                                <a href="{{ article['url'] }}">
+                                    <img src="{{ images_dict[article['resource']] }}"
+                                         class="img-fluid"></a>
+                            </figure>
+                        </div>
+                        <div class="row">
+                            <div class="col-9 pt-4">
+                                <h3 class="article_data"><a href='https://www.obozrevatel.com/main-item/03-02-2019.htm'>{{ article['title'] }}</a></h3>
+                                <div class="article_data">Similarity - {{ article['similarity'] }}</div>
+                                <div class="article_data"><span class="icon-clock-o"></span>{{ article['date'] }}</div>
+                                <p class="article_data">{{ article['text'] }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+
+<script type="text/javascript">// <![CDATA[
+    function loading() {
+        $("#sort_by_date").show();
+        $("#sort_by_similarity").hide();
+    }
+
+// ]]></script>
+
+{% endblock content %}

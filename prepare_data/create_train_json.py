@@ -1,12 +1,10 @@
 import json
 import os
-import subprocess
 import time
 
-from langdetect import detect
 from googletrans import Translator
 
-from translate_text import translate_text
+from prepare_data.translate_text import translate_text
 
 
 def write_in_json(title, text, label, n_last_article=0):

@@ -29,7 +29,7 @@ def parse_main_pages():
     n_article = -1
 
     print("max_id", max_id)
-    for n_page in range(382, NUMBER_PAGES):
+    for n_page in range(500, NUMBER_PAGES):
         print("n_page", n_page + 1)
         if n_page + 1 == 1:
             url = MAIN_URL
@@ -100,21 +100,21 @@ def parse_main_pages():
             except sqlalchemy.exc.IntegrityError:
                 continue
 
-            # translator = Translator()
-            # try:
-            #     src_lang = translator.translate(article_title).src
-            # except json.decoder.JSONDecodeError:
-            #     time.sleep(3)
-            #     translator = Translator()
-            #     src_lang = translator.translate(article_title).src
-            #
-            # # REINITIALIZE THE API
-            # translator = Translator()
-            # try:
-            #     translated = translator.translate(article_title, src=src_lang, dest="en")
-            #     article_title_en = translated.text
-            # except Exception as e:
-            #     print(str(e))
+            translator = Translator()
+            try:
+                src_lang = translator.translate(article_title).src
+            except json.decoder.JSONDecodeError:
+                time.sleep(3)
+                translator = Translator()
+                src_lang = translator.translate(article_title).src
+
+            # REINITIALIZE THE API
+            translator = Translator()
+            try:
+                translated = translator.translate(article_title, src=src_lang, dest="en")
+                article_title_en = translated.text
+            except Exception as e:
+                print(str(e))
             article_title_en = ""
 
             resource_end_pos = url_article.find("/ua")
@@ -131,20 +131,20 @@ def parse_main_pages():
 
             max_id += 1
 
-            try:
-                db.session.add(new_article)
-                db.session.commit()
-                db.session.flush()
-                db.create_all()
-            except sqlalchemy.exc.IntegrityError:
-                continue
-
-        try:
-            db.session.rollback()
-            db.session.commit()
-            db.create_all()
-        except sqlalchemy.exc.IntegrityError:
-            continue
+        #     try:
+        #         db.session.add(new_article)
+        #         db.session.commit()
+        #         db.session.flush()
+        #         db.create_all()
+        #     except sqlalchemy.exc.IntegrityError:
+        #         continue
+        #
+        # try:
+        #     db.session.rollback()
+        #     db.session.commit()
+        #     db.create_all()
+        # except sqlalchemy.exc.IntegrityError:
+        #     continue
         # with open("stopfake_data.json", "w", encoding="utf-8") as file:
         #     json.dump(json_data, file, indent=4, ensure_ascii=False)
 
