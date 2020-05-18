@@ -70,10 +70,10 @@ class Array:
         """
         char: str, a character with which split this text
         """
-        self2 = Array(50)
+        self2 = Array(100)
         string = self[0]
         position_next_line = 0
-        for i in range(75, len(string)):
+        for i in range(len(string)):
             ch = string[i]
             if ch == char:
                 self2.append_array(string[position_next_line:i - 1])
