@@ -1,1 +1,1 @@
-web: cd flask_app && python -m textblob.download_corpora && gunicorn -b :5.53.116.125 app:app --timeout 600
+web: cd flask_app && python -m textblob.download_corpora && gunicorn -b :5004 app:app --timeout 600
