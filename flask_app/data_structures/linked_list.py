@@ -1,11 +1,25 @@
+from prepare_data.transform_date import transform_date
+
+
 class LinkedListIterator:
     def __init__(self, head):
+        """
+
+        :param head: a head Node
+        """
         self.current = head
 
     def __iter__(self):
+        """
+
+        :return: make iteration during loop
+        """
         return self
 
     def __next__(self):
+        """
+        Get next element
+        """
         if not self.current:
             raise StopIteration
         else:
@@ -29,6 +43,10 @@ class Node:
         self.next = next
 
     def __str__(self):
+        """
+
+        :return: title str
+        """
         return str(self.title)
 
 
@@ -41,6 +59,7 @@ class TwoWayNode(Node):
 
 class LinkedList:
     """Create a new Linked List for articles"""
+
     def __init__(self, title, date, similarity, url, resource, text):
         """
         title, date, url, resource: str
@@ -51,6 +70,10 @@ class LinkedList:
         self.length = 1
 
     def __iter__(self):
+        """
+
+        :return: iteration for all structure
+        """
         return LinkedListIterator(self.int_head)
 
     def __str__(self):
@@ -64,10 +87,31 @@ class LinkedList:
         while article is not None:
             article_id += 1
             result_str += "{}:(\n".format(str(article_id)) + "    \"title\": {},\n".format(article.title) + \
-                         "    \"date\": {},\n".format(article.date) + \
-                         "    \"similarity\": {},\n".format(str(article.similarity)) + \
-                         "    \"url\": {},\n".format(article.url) + \
-                         "    \"resource\": {}\n),\n".format(article.resource)
+                          "    \"date\": {},\n".format(article.date) + \
+                          "    \"similarity\": {},\n".format(str(article.similarity)) + \
+                          "    \"url\": {},\n".format(article.url) + \
+                          "    \"resource\": {}\n),\n".format(article.resource)
+
+            article = article.next
+
+        result_str = result_str[:-2] + "\n}"
+        return result_str
+
+    def __repr__(self):
+        """
+        Prints the data stored in self.
+        __str__: Node -> Str
+        """
+        result_str = "{\n"
+        article = self.int_head
+        article_id = 0
+        while article is not None:
+            article_id += 1
+            result_str += "{}:(\n".format(str(article_id)) + "    \"title\": {},\n".format(article.title) + \
+                          "    \"date\": {},\n".format(article.date) + \
+                          "    \"similarity\": {},\n".format(str(article.similarity)) + \
+                          "    \"url\": {},\n".format(article.url) + \
+                          "    \"resource\": {}\n),\n".format(article.resource)
 
             article = article.next
 
@@ -103,7 +147,15 @@ class LinkedList:
         elif sort_parameter == "date":
             lst_a_date = str(lst_a.date).split("-")
             lst_b_date = str(lst_b.date).split("-")
+
+            if len(lst_a_date) < 3:
+                lst_a_date = transform_date(str(lst_a.date)).split("-")
+
+            if len(lst_b_date) < 3:
+                lst_b_date = transform_date(str(lst_b.date)).split("-")
+
             for position in range(len(lst_a_date)):
+                # try:
                 if int(lst_a_date[position]) > int(lst_b_date[position]):
                     lst_a_parameter = 1
                     break
@@ -111,6 +163,10 @@ class LinkedList:
                 elif int(lst_b_date[position]) > int(lst_a_date[position]):
                     lst_b_parameter = 1
                     break
+                # except Exception as e:
+                #     print("error", str(e))
+                #     continue
+
 
         # pick either a or b and recur..
         if lst_a_parameter >= lst_b_parameter:

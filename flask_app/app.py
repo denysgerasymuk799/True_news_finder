@@ -2,6 +2,7 @@
 import copy
 import json
 import os
+import sqlite3
 import time
 
 import nltk
@@ -92,6 +93,12 @@ IMAGES_DICT = {
 
 
 @app.route('/', methods=['POST', 'GET'])
+def welcome():
+    if request.method == 'GET':
+        return render_template("welcome.html")
+
+
+@app.route('/input_article', methods=['POST', 'GET'])
 def input_article():
     if request.method == 'POST':
         user_article_title = request.values.get("user_article_title").lower()
@@ -99,7 +106,6 @@ def input_article():
         print(user_article_title)
         print(user_article_text)
 
-        # user_article_text = request.values.get("user_article_title").lower()
         return redirect(url_for("get_sites", user_article_title=user_article_title,
                                 user_article_text=user_article_text))
     else:
@@ -113,8 +119,9 @@ def get_sites():
         user_article_text = request.args['user_article_text']
         print("user_article_title2", user_article_title)
         print("user_article_title23", user_article_text)
+        same_articles = None
         same_articles = get_similar(user_article_title)
-#
+
 #         text1 = """Контрольно-пропускной пункт "Шегини" в Мостицком районе Львовской области (на границе с Польшей) возобновит свою работу. Такое решение было принято сегодня, 13 мая, на заседании Кабинета министров в рамках ослабления карантина.Отметим, что с предложением открыть данный пропускной пункт выступил министр внутренних дел Арсен Аваков. Члены Кабмина его поддержали. КПП откроют со дня опубликования соответствующего постановления.Как сообщал сайт "Сегодня", ранее Кабинет министров в связи с распространением коронавирусной инфекции закрыл пункты пропуска, которые расположены на границе с Польшей, Румынией и Молдовой.Реклама
 #
 #         elemVisibleListener(document.querySelector('.adsbygoogle'), function(){
@@ -167,7 +174,7 @@ def get_sites():
 #                           text2)
 #
 #         same_articles.add("h3",
-#                           "2020-03-1",
+#                           "Травень, 03 в 21:49",
 #                           0.03,
 #                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
 #                           "https://fakty.com.ua/ua",
@@ -187,23 +194,28 @@ def get_sites():
 #                           "https://fakty.com.ua/ua",
 #                           text3)
 
-        print("get")
         print(same_articles)
-        # print(text1)
-        # print(text2)
-        # print(text3)
-        same_articles.int_head = same_articles.merge_sort(same_articles.int_head, "similarity")
+        if same_articles is not None:
+            same_articles.int_head = same_articles.merge_sort(same_articles.int_head, "similarity")
 
-        same_articles2 = copy.deepcopy(same_articles)
-        same_articles2.int_head = same_articles.merge_sort(same_articles2.int_head, "date")
+            same_articles2 = copy.deepcopy(same_articles)
+            same_articles2.int_head = same_articles.merge_sort(same_articles2.int_head, "date")
+
+        else:
+            same_articles = LinkedList("Сервіс не зміг знайти статті на подібну тему за останній місця(",
+                                       "2020-05-19",
+                                        0.0,
+                                       "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+                                       "https://tsn.ua/",
+                                        "")
+            same_articles2 = copy.deepcopy(same_articles)
 
         # same_articles_head = same_articles.int_head
 
         time.sleep(3)
         return render_template("one_section.html", articles=same_articles,
                                articles2=same_articles2,
-                               images_dict=IMAGES_DICT,
-                               sort_parameter="similarity")
+                               images_dict=IMAGES_DICT)
 
 
 def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
@@ -220,45 +232,45 @@ def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
             article_from_db = Article.query.filter_by(id=article_id).first()
 
         if article_from_db is not None:
-            # start_key_words = str(article_from_db.key_words).find("key_words=") + 10
-            # end_key_words = str(article_from_db.key_words).find("key_words>") - 1
-            # key_words_article = str(article_from_db.key_words)[start_key_words: end_key_words]
-            # article_title_from_db = ' '.join(str(key_words_article).split(", "))
 
-            # if additional == "keywords_in_db":
-            # nltk.download('all')  # if necessary...
-            blob = TextBlob(article_from_db.title)
-            title_key_words = blob.noun_phrases
-            # key_words = ', '.join(title_key_words)
-            # print("key_words", key_words)
-            # article_key_words = ArticleKeyWord(title_en=article_from_db.title_en,
-            #                                    key_words=key_words)
-            # article_from_db.key_words.append(article_key_words)
-            # db.create_all()
-            # try:
-            #     db.session.commit()
-            # except sqlite3.IntegrityError:
-            #     continue
-
-            title_key_words = ' '.join(title_key_words)
-
+            if additional == "keywords_in_db" and db.session.query(ArticleKeyWord.title_en).filter_by(
+                    title_en=article_from_db.title_en).scalar() is None:
+                # nltk.download('all')  # if necessary...
+                blob = TextBlob(article_from_db.title_en)
+                title_key_words = blob.noun_phrases
+                key_words = ', '.join(title_key_words)
+                print("key_words", key_words)
+                article_key_words = ArticleKeyWord(title_en=article_from_db.title_en,
+                                                   key_words=key_words)
+                article_from_db.key_words.append(article_key_words)
+                db.create_all()
+                try:
+                    db.session.commit()
+                except sqlite3.IntegrityError:
+                    continue
+            #
             # else:
+            #     print("Found in db or not additional function")
             #     article_key_words = ArticleKeyWord.query.filter_by(id=article_id).first()
-            #     title_key_words = str(article_key_words)
+            #     if article_key_words is not None:
+            #         article_key_words = article_key_words.key_words
+            #         title_key_words = str(article_key_words).split(",")
+            #     else:
+            #         title_key_words = article_from_db.title_en
 
-            same_articles_num = cosine_sim(user_title, title_key_words)
+            # title_key_words = ' '.join()
+            same_articles_num = cosine_sim(user_title, article_from_db.title_en)
 
             print()
             print("article_title_from_db", article_from_db.title)
-            print("title_key_words", title_key_words)
+            # print("title_key_words", title_key_words)
             print(article_from_db.title_en)
             print("same_articles_num", same_articles_num)
-            # if flag_same_articles == 1:
 
             if same_articles_num >= 0.2:
                 print("same article", article_from_db.title, article_from_db.url)
                 str_article_from_db = str(article_from_db.text).split(".")
-                if len(str_article_from_db) == 2:
+                if len(str_article_from_db) <= 2:
                     article_from_db.text = str_article_from_db[0]
 
                 else:
@@ -297,15 +309,10 @@ def get_similar(user_title, additional_function=""):
     user_title_key_words = user_title
     print(user_title_key_words)
 
-    same_articles = get_data_from_db(user_title_key_words, "ArticleFakeChecker2", 1, 926,
-                                     additional=additional_function)
+    same_articles = get_data_from_db(user_title_key_words, "ArticleFakeChecker2", 1, 926)
+    same_articles = get_data_from_db(user_title_key_words, "Article", 1, 1451, same_articles)
+    # same_articles = get_data_from_db(user_title_key_words, "Article", 42000, 42800, same_articles)
 
-    same_articles = get_data_from_db(user_title_key_words, "Article", 1, 1451, same_articles,
-                                     additional=additional_function)
-    same_articles = get_data_from_db(user_title_key_words, "Article", 42000, 42800, same_articles,
-                                     additional=additional_function)
-
-    # print(same_articles)
     return same_articles
 
 

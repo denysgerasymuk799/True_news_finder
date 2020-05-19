@@ -1,0 +1,65 @@
+{% extends "index.html" %}
+{% block nav %}
+    <nav class="site-navigation position-relative text-right" role="navigation">
+        <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
+            <li class="cta"><a href="{{ url_for('input_article') }}"
+                class="nav-link"><span>Input article</span></a></li>
+        </ul>
+    </nav>
+{% endblock nav %}
+
+{% block content %}
+    <style>
+        #text_welcome{
+            color: black;
+        }
+
+        p {
+            font-family: Verdana, Arial, Helvetica, sans-serif;
+            font-size: 16pt; /* Размер шрифта в пунктах */
+            color: black;
+        }
+
+        span {
+            padding: 3px 0;
+            line-height: 1.45;
+            background: rgba(20, 172, 211, .5);
+            box-shadow: 10px 0 rgba(20, 172, 211, .5), -10px 0 rgba(20, 172, 211, .5);
+        }
+
+    </style>
+    <div class="site-section courses-title" id="courses-section">
+            <div class="container">
+                <div class="row mb-5 justify-content-center">
+                    <div class="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
+                        <h3 class="section-title">Фейки – одна з ключових проблем сьогодення</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
+            <div id="first_similarity" class="container">
+                <div class="col-12">
+                <p id="text_welcome"><span>Сьогодні, в епоху пост-правди та неймовірної кількості інформації, яку ми вживаємо щодня, фейки стали
+                    невід’ємною частиною кожної стрічки новин. Автори контенту все більш успішно та витончено обманюють
+                    людей. А соціальні медіа швидко поширюють дезінформацію.</span></p>
+
+                <p>Розповсюдження фейків є вкрай небезпечним. За допомогою фейкових новин можна не лише маніпулювати
+                думкою людей, але й розв’язати війну!</p>
+                <p></p>
+                <p>Даний сервіс допоможе знайти найдостовірніші новини подібні до уведеної статті.
+                    Це може врятувати Вас від омани і навіть трохи покращити життя! Щоб розпочати роботу з сервісом натисніть <span>кнопку вгорі «Input article»<span></p>
+                <p>Наступні посилання допоможуть Вам краще розібратися як власноручно виявити фейкові новини:</p>
+                <li><a href="https://www.stopfake.org/uk/yak-rozpiznaty-fejk/">
+                    Як розпізнати фейк
+                </a></li>
+                <li><a href="https://artefact.live/?p=732">Як розпізнати фейкові новини?</a></li>
+                <li><a href="https://nachasi.com/2017/08/01/antifake-faq/">Як розпізнати фейкові новини та статті</a></li>
+                <img src="https://ms.detector.media/doc/images/news/22563/yak_rozpiznati_feikovi_novini_how_to_spot_fake_news.jpg">
+
+                </div>
+            </div>
+        </div>
+
+{% endblock content %}

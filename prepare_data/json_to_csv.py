@@ -30,4 +30,3 @@ def write_to_csv(filename, result_filename):
 
 if __name__ == '__main__':
     write_to_csv('train_model.json', 'train_model2.csv')
-    # write_to_csv('package.json', 'package.csv')

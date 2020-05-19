@@ -8,7 +8,6 @@
                                                     class="nav-link"><span>Sort by Date</span></li>
             <li class="cta"><a href="#sort_by_similarity"
                                class="nav-link"><span>Sort by Similarity</span></a></li>
-            <li class="cta"><a id="selected" href="#" class="nav-link"><span>View selected</span></a>
         </ul>
     </nav>
 {% endblock nav %}
@@ -27,6 +26,13 @@
             margin-left: 10%;
         }
 
+        span {
+            padding: 3px 0;
+            line-height: 1.45;
+            background: rgba(20, 172, 211, .5);
+            box-shadow: 10px 0 rgba(20, 172, 211, .5), -10px 0 rgba(20, 172, 211, .5);
+        }
+
 	</style>
 
     <div class="site-section courses-title" id="courses-section">
@@ -39,7 +45,6 @@
             </div>
         </div>
 
-<form method="post" id="the-form" action="selected">
     <div id="sort_by_similarity">
         <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
             <label  for="first_similarity" class="section-title">
@@ -58,7 +63,7 @@
                         </div>
                         <div class="row">
                             <div class="col-9 pt-4">
-                                <h3 class="article_data"><a href='https://www.obozrevatel.com/main-item/03-02-2019.htm'>{{ article['title'] }}</a></h3>
+                                <h3 class="article_data"><a href="{{ article[' url'] }}">{{ article['title'] }}</a></h3>
                                 <div class="article_data">Similarity - {{ article['similarity'] }}</div>
                                 <div class="article_data"><span class="icon-clock-o"></span>{{ article['date'] }}</div>
                                 <p class="article_data">{{ article['text'] }}</p>
@@ -69,9 +74,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-1 custom-btn">
-        <a class="customNextBtn btn btn-primary" href="#">Next</a>
     </div>
 
     <div id="sort_by_date">
@@ -105,8 +107,6 @@
             </div>
         </div>
     </div>
-
-</form>
 
 <script type="text/javascript">// <![CDATA[
     function loading() {

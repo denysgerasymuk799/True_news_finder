@@ -1,3 +1,6 @@
+"""
+Import libraries for ML
+"""
 import os
 import numpy as np
 import itertools
@@ -55,25 +58,22 @@ def plot_confusion_matrix(cm, classes,
 
 
 def get_tests_results():
+    """
+
+    :return: a result of training
+    """
     # Reading data as pandas dataframe
     temp_dir = os.getcwd()
     os.chdir("..")
-    # my_frame = pd.read_csv(os.path.join(os.getcwd(), '.ipynb_checkpoints', 'fake_or_real_news.csv'), error_bad_lines=False)
     my_frame = pd.read_csv(os.path.join(os.getcwd(), '.ipynb_checkpoints', 'train_model.csv'), error_bad_lines=False)
     my_test_frame = pd.read_csv(os.path.join(os.getcwd(), '.ipynb_checkpoints', 'my_test_model.csv'),
                                 error_bad_lines=False)
 
-    # Inspecing Shape
-    # frame.shape
     my_frame.shape
-
-    # y = frame.label
 
     my_y = my_frame.label
 
     my_test2_y = my_test_frame.label
-
-    # frame.drop("label", axis=1)
 
     my_frame.drop("label", axis=1)
 
@@ -112,8 +112,6 @@ def get_tests_results():
     linear_clf.fit(tfidf_train, y_train)
     print('linear_clf', linear_clf)
 
-    linear_clf2 = PassiveAggressiveClassifier()
-
     pred = linear_clf.predict(tfidf_test)
 
     print("pred", pred)
@@ -125,7 +123,6 @@ def get_tests_results():
     plot_confusion_matrix(cm, classes=['FAKE', 'REAL'])
 
     os.chdir(temp_dir)
-    # return pred[0], score
 
 
 if __name__ == '__main__':

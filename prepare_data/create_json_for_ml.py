@@ -63,9 +63,7 @@ def write_in_json(title, text, label, n_last_article=0):
 
             with open(path_to_write, "w", encoding="utf-8") as file:
                 json.dump(json_data_write, file, indent=4, ensure_ascii=False)
-        #
-        # except:
-        #     continue
+
         n_last_article += 1
 
     os.chdir(temp_dir)
@@ -79,9 +77,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # temp_dir = os.getcwd()
-    # os.chdir("..")
-    # path_to_write = os.path.join(os.getcwd(), '.ipynb_checkpoints', 'train_model2.json')
-    # di = {}
-    # with open(path_to_write, "w", encoding="utf-8") as file:
-    #     json.dump(di, file, indent=4, ensure_ascii=False)
