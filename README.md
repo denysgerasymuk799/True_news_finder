@@ -8,8 +8,8 @@
 Fake news finder
     
 # Description: 
-Проект має на меті виявлення на скільки достовірна новина за 4 категоріями: брехня, хитра новина, можливо правда, правда.
-Також користувачі мають змогу отримати новину-підтвердження чи доказ-спростування до уведеного посилання на новину.
+The project aims to identify how reliable the news is in 4 categories: lies, cunning news, maybe true, true.
+Users also have the opportunity to receive news-confirmation or proof-refutation of the entered link to the news.
 
 # Table of Contents: 
 1. [Description](#description)
@@ -22,21 +22,18 @@ Fake news finder
 
 # Broad description:
 
-### Призначення та коротка характеристика програми
+### Purpose and brief description of the program
 
-Дана програма призначена для візуалізації результату тренування моделі на те, що статті вірні чи фейки, а також для пошуку статей на подібну тему, які підтверджують або спростовують дану. У проекті використовується власно розроблений тип даних на основі SQLachemy та структури даних такі як LinkedList - двозв'язний список та Array - масив
-
+This program is designed to visualize the result of training the model on whether the articles are true or fake, as well as to search for articles on a similar topic that confirm or refute this. The project uses a proprietary data type based on SQLachemy and data structures such as LinkedList - a linked list and Array - an array
 
  
-### Вхідні та вихідні дані програми
+### Input and output data of the program
 
-Спочатку юзер вибирає функцію якою хочу скористатися. Якщо це пошук подібних статей, то він уводить заголовок та текст статті у форматі str. Тоді він отримує декілька статей на дану тему, які можуть допомогти йому знайти правду у даній темі.
+First, the user selects the function I want to use. If it is a search for similar articles, it enters the title and text of the article in str format. He then receives several articles on the subject that can help him find the truth in the subject.
 
-Якщо це візуалізація результату дослідження, то користувач нічого не уводить і отримує передбачення до кожної статті тестової та графік розподілу правдивості статей.
+If it is a visualization of the research result, then the user does not enter anything and receives a prediction for each test article and a schedule of distribution of the veracity of the articles.
 
-
-
-### Структура програми з коротким описом модулів, функцій, класів та методів
+### The structure of the program with a brief description of modules, functions, classes and methods
 
 - .ipynb_checkpoints 
 
@@ -65,42 +62,42 @@ Fake news finder
 
 
 
-### Опис кожного компоненту
-- .ipynb_checkpoints - головна папка з файлами для тренування моделі
+### Description of each component
+- .ipynb_checkpoints - the main folder with files for training the model
 
-- flask_app - веб застосунок на Flask та всі файли і модулі пов’язані з ним
-  - data_structures - папка модулів з класами Array та LinkedList
-  - templates - шаблони для веб застосунку
-  - аpp.py - головний модуль, який вміщує всі пересування по сторінках веб застосунку, а також моделі і таблички для бази даних
-  - fake_news_classifier.py - модель розпізнавання фейкових даних, яка візуалізує також результат
-  - get_similar_articles.py - модуль, який дістає інформацію з бази даних та знаходить подібні статті за ключовими словами
-  - microsoft_text_recognition.py- модуль, що взаємодіє з Azure Cognitive Service для записування у табличку ключових слів по кожній статт та отримання ключових слів для уведеної юзером статті
-  - my_config.py- головні ключі та настройки конфігурації веб застосунку та бази даних
-  - translate_text_with_array.py - перекладач на англійську мову з будь якої завдає бібліотеки googletrans
-  - try_data_structers.py- модуль тестування всіх структур даних у проекті
+- flask_app - Flask web application and all files and modules associated with it
+  - data_structures - a folder of modules with classes Array and LinkedList
+  - templates - templates for web application
+  - app.py - the main module that contains all the movements on the pages of the web application, as well as models and tables for the database
+  - fake_news_classifier.py - fake data recognition model that also visualizes the result
+  - get_similar_articles.py - a module that retrieves information from a database and finds similar articles by keywords
+  - microsoft_text_recognition.py- a module that interacts with the Azure Cognitive Service to write in the table of keywords for each article and get keywords for the article entered by the user
+  - my_config.py- master keys and configuration of web application and database
+  - translate_text_with_array.py - English translator from any googletrans library
+  - try_data_structers.py- module for testing all data structures in the project
 
-- site_parse- папка з модулями парсингу фейкчекерів та найправдивіших сайтів новин в Україні
+- site_parse- folder with fake checker parsing modules and the truest news sites in Ukraine
 
-- static- папка для збереження головних документів про проект
+- static-folder for saving the main documents about the project
 
-- create_train_json.py - модуль, який зчитує json з новинами для тренування моделі та перекладає його на англійську мову для того, щоб точніше провести дослідження так як на англійській мові бібліотеки використанні у проекті працюють точніше
+- create_train_json.py - a module that reads json with news for model training and translates it into English in order to conduct more accurate research as in English libraries use in the project work more accurately
 
-- json_to_csv.py- модуль, що перетворює json у csv для тренування модуля  Fake_news_classifier.py
+- json_to_csv.py- module that converts json to csv for training module Fake_news_classifier.py
 
-- xlsx_to_json.py - модуль, що перетворює xlsx на json для перевірки коректності зчитаних даних з csv
+- xlsx_to_json.py - a module that converts xlsx to json to check the correctness of read data from csv
 
 
 
 ### Опис тестових прикладів для первірки працездатності програми
 
-Для тестування  fake_news_classifier.py було використано декілька змін у тестових статтях після рандомного розподілу множини статей із файлу train_model.csv та заміни першу статтю масиву для перевірки працездатності з файлу my_test_model.csv
+To test fake_news_classifier.py, several changes were used in the test articles after randomly distributing a plurality of articles from the train_model.csv file and replacing the first article of the array to test the health of the my_test_model.csv file.
 
-Для перевірки коректності знайдених подібних статей було використано декілька подібних прикладів. Це один із них:
+Several similar examples were used to verify the correctness of the found similar articles. This is one of them:
 
 `КНДР обстріляла прикордонний пункт Південної Кореї: що відомо - введений заголовок`
 
 
-Отримані статті з різних порталів новин:
+Received articles from various news portals:
 
 `Північна Корея обстріляла прикордонний пункт Південної у демілітаризованій зоні`
 
@@ -109,8 +106,36 @@ Fake news finder
 # Installation:
 
 # Usage:
-ЗАГАЛОМ УСІ СТРУКТУРИ ТА ТИПИ ДАНИХ МОЖНА ЗАТЕСТУВАТИ У flask_app/try_data_structures.py - для цього потрібно лише встановити репозиторій та запустити даний модуль саме з папки flask_app, а не з кореневої папки, бо подальших завданнях я буду використовувати веб додаток. Також при запуску цього модуля потрібно включити VPN на комп’ютері для того, щоб translator працював коректно.
-Особисто я користуюся цим - https://protonvpn.com/download
+
+I was unable to run the web application on heroku due to timeout restrictions, however
+the application is fully functional if run locally. You can see my efforts to launch the web application at the link - but it falls on page 3 via TIMEOUT. You can enter any news, but the algorithm will find better those headlines,
+which have been popular recently, for example:
+
+```
+- Кремль готує росіян до повернення Криму Україні?
+
+- Це наша політика: Зеленський назвав помилкою відкликання посла Грузії
+
+- Стало відомо, яка країна першою отримає від Японії ймовірні ліки від Covid-19
+```
+
+IN GENERAL, ALL DATA STRUCTURES AND TYPES CAN BE TESTED in flask_app / try_data_structures.py - all you need to do is install the repository and run this module. You also need to enable VPN on your computer when running this module for the translator to work properly.
+Personally, I use this - https://protonvpn.com/download
+
+You also need to enter commands to launch the web application
+
+Windows:
+```
+pip install -r requirements.txt 
+python flask_app/app.py
+```
+
+UNIX:
+```
+sudo pip install -r requirements.txt
+python3 flask_app/app..py
+```
+
 
 # Contribution:
 
