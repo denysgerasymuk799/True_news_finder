@@ -14,7 +14,6 @@ from flask_app.data_structures.linked_list import LinkedList
 
 
 def stem_tokens(tokens):
-    # nltk.download('punkt')  # if necessary...
     stemmer = nltk.stem.porter.PorterStemmer()
     return [stemmer.stem(item) for item in tokens]
 
