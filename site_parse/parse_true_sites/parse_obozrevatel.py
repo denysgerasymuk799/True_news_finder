@@ -1,30 +1,21 @@
 import json
 import sqlite3
-import time
-
-import boto3
-import requests
-import os
-
 import sqlalchemy
-from googletrans import Translator
-from slugify import slugify
+import requests
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
-import requests
 from bs4 import BeautifulSoup
 from datetime import timedelta, date
 
-# from flask_app.app import db, Article
 from flask_app.app import Article, db
-from site_parse.parse_true_sites.parse_tsn import translate_title
+from site_parse.translate_title import translate_title
 
 MAIN_URL = "https://www.obozrevatel.com/main-item.htm?utm_source=obozrevatel&utm_medium=self_promo&utm_campaign=mi_header_btn"
 MAIN_URL2 = "https://www.obozrevatel.com/main-item/"
 
 
-def daterange(start_date, end_date):
+def date_range(start_date, end_date):
     for n in range(int((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
@@ -43,7 +34,6 @@ def parse_all_pages(filename):
         max_id = 1
     print("max_id", max_id)
 
-    # i = 0
     for url in urls_article["urls_explorer"]:
         html_page = requests.get(url,
                                  headers={
@@ -55,7 +45,8 @@ def parse_all_pages(filename):
             all_h = soup.find_all("h1", {"class": "news-full__title"})
             article_title = all_h[0].string
             article_title = str(article_title).strip()
-        except:
+        except Exception as e:
+            print(str(e))
             continue
         print()
         print("article_title", article_title)
@@ -77,7 +68,8 @@ def parse_all_pages(filename):
             article_text = BeautifulSoup(str(article_text).strip(), "lxml").text
             article_text = str(article_text).strip()
 
-        except:
+        except Exception as e:
+            print(str(e))
             article_text = ""
 
         print("article_text", article_text)
@@ -86,7 +78,8 @@ def parse_all_pages(filename):
             article_date = soup.find_all("time", {"class": "news-full__date--create"})[0].string
             article_date = str(article_date).strip()
 
-        except:
+        except Exception as e:
+            print(str(e))
             article_date = ""
 
         print("article_date", article_date)
@@ -108,13 +101,9 @@ def parse_all_pages(filename):
         max_id += 1
         print("article_title_en", article_title_en)
 
-        # i += 1
-        # if i == 5:
-        #     break
-
         try:
-            db.session.add(new_article)
             db.session.rollback()
+            db.session.add(new_article)
             db.session.commit()
             db.session.flush()
             db.create_all()
@@ -134,7 +123,6 @@ def get_html_pages(url_main, driver, urls_dict):
         i += 1
         print("n_page_scroll", i)
 
-        # try:
         driver.execute_script("window.scrollTo(0,  document.body.scrollHeight)")
         driver.implicitly_wait(5)
         if i == 500:
@@ -146,9 +134,6 @@ def get_html_pages(url_main, driver, urls_dict):
                 urls_dict["urls_explorer"].append(url_article)
 
             break
-        #
-        # if i == 5:
-        #     break
 
     return urls_dict
 
@@ -164,7 +149,7 @@ def parse_all_main_pages():
     urls_dict["urls_explorer"] = []
     get_html_pages(MAIN_URL, driver, urls_dict)
 
-    for n_main_page, single_date in enumerate(daterange(start_date, end_date)):
+    for n_main_page, single_date in enumerate(date_range(start_date, end_date)):
         print("n_main_page", n_main_page)
         date_page = single_date.strftime("%d-%m-%Y")
         url_main = MAIN_URL2 + date_page + ".htm"
@@ -173,25 +158,25 @@ def parse_all_main_pages():
         if len(urls_dict["urls_explorer"]) >= 2000:
             urls_1 = dict()
             urls_1["urls_explorer"] = urls_dict["urls_explorer"][:2000]
-            with open("links_explorer_articles.json", "w", encoding="utf-8") as file:
+            with open("files_for_parse_true_sites/links_explorer_articles.json", "w", encoding="utf-8") as file:
                 json.dump(urls_1, file, indent=4)
 
             if len(urls_dict["urls_explorer"]) <= 4000:
                 urls_1["urls_explorer"] = urls_dict["urls_explorer"][2000:]
-                with open("links_explorer_articles2.json", "w", encoding="utf-8") as file:
+                with open("files_for_parse_true_sites/links_explorer_articles2.json", "w", encoding="utf-8") as file:
                     json.dump(urls_1, file, indent=4)
 
             elif 4000 < len(urls_dict["urls_explorer"]):
                 urls_1["urls_explorer"] = urls_dict["urls_explorer"][2000:4000]
-                with open("links_explorer_articles2.json", "w", encoding="utf-8") as file:
+                with open("files_for_parse_true_sites/links_explorer_articles2.json", "w", encoding="utf-8") as file:
                     json.dump(urls_1, file, indent=4)
 
                 urls_1["urls_explorer"] = urls_dict["urls_explorer"][4000:]
-                with open("links_explorer_articles3.json", "w", encoding="utf-8") as file:
+                with open("files_for_parse_true_sites/links_explorer_articles3.json", "w", encoding="utf-8") as file:
                     json.dump(urls_1, file, indent=4)
 
         else:
-            with open("links_explorer_articles.json", "w", encoding="utf-8") as file:
+            with open("files_for_parse_true_sites/links_explorer_articles.json", "w", encoding="utf-8") as file:
                 json.dump(urls_dict, file, indent=4)
 
         if len(urls_dict["urls_explorer"]) >= 5000:
@@ -199,7 +184,7 @@ def parse_all_main_pages():
 
 
 if __name__ == '__main__':
-    # parse_all_main_pages()
-    parse_all_pages("links_explorer_articles.json")
-    parse_all_pages("links_explorer_articles2.json")
-    parse_all_pages("links_explorer_articles3.json")
+    parse_all_main_pages()
+    parse_all_pages("files_for_parse_true_sites/links_explorer_articles.json")
+    parse_all_pages("files_for_parse_true_sites/links_explorer_articles2.json")
+    parse_all_pages("files_for_parse_true_sites/links_explorer_articles3.json")

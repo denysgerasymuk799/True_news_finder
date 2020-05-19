@@ -1,14 +1,12 @@
-import os
+from flask_app.app import get_similar
+from flask_app.fake_news_classifier import get_tests_results
 
-from fake_news_classifier import get_tests_results
-from get_similar_articles import main
-
-from translate_text_with_array import translate_text
+from flask_app.translate_text_with_array import translate_text
 
 
 if __name__ == '__main__':
     print("""Now AI has such functions: 
-        1. Find similar articles to my article title
+        1. Find similar articles to an example article title
         2. Look at the training and tests results of the AI fake_new_finder
         3. Translate on english""")
 
@@ -20,7 +18,7 @@ if __name__ == '__main__':
 
     if user_choice == "1":
         user_title = "Народ Криму зробив свій вибір на користь Росії"
-        main(user_title)
+        get_similar(user_title)
 
     elif user_choice == "2":
         get_tests_results()

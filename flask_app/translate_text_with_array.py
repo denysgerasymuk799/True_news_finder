@@ -3,7 +3,7 @@ import json
 import time
 
 from googletrans import Translator
-from data_structures.array import Array
+from flask_app.data_structures.array import Array
 
 
 def translate_text(article, dest_lang):
@@ -31,7 +31,7 @@ def translate_text(article, dest_lang):
                     translated = translator.translate(line, src=src_lang, dest=dest_lang)
                     new_rows.append_array(translated.text)
                 except Exception as e:
-                    # print(str(e))
+                    print(str(e))
                     continue
             else:
                 break
@@ -47,7 +47,5 @@ def translate_text(article, dest_lang):
 
 
 if __name__ == '__main__':
-    # articles_array = Array(15)
     string = "Північна Корея провела випробування надважкої багатозарядної пускової установки.\n\nДжерело: DW\n\nДеталі: В рамках випробувань Пхеньян перевіряв тактико-технічні характеристики пускової установки. Випробування пройшли успішно, найближчим часом установку планують поставити до військових частин. \n\nНагадаємо:\n\n    КНДР 9 березня провела пуск трьох невпізнаних снарядів у напрямку Японського моря. \n    За даними Об'єднаного комітету начальників штабів Південної Кореї, запуск був проведений з району міста Сондок в провінції Хамген-Намдо і пролетіли близько 200 км.\n"
-    # print(articles_array.split('\n'))
     print(translate_text(string, "en"))

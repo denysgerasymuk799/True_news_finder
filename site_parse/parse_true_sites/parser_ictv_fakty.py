@@ -1,127 +1,187 @@
 import json
-import os
-import re
+import sqlite3
 import time
-from datetime import datetime
-from pathlib import Path
-from pprint import pprint
 
-import boto3
+import sqlalchemy
+from googletrans import Translator
+
 import requests
 from bs4 import BeautifulSoup
-from slugify import slugify
+
+from flask_app.app import db, Article
+
+MAIN_URL = "https://fakty.com.ua/ua/news/"
+MAIN_URL_PAGE_FROM2 = "https://fakty.com.ua/ua/news/page/"
+NUMBER_PAGES = 800
 
 
-def cache_page(url, root_path, site_parse_name):
-    """
+def parse_main_pages():
+    try:
+        last_article = db.session.query(Article).order_by(Article.id.desc()).first()
+        max_id_pos_start = str(last_article).find("id=")
+        max_id_pos_end = str(last_article).find("title=")
+        max_id = str(last_article)[max_id_pos_start + 3: max_id_pos_end - 2]
+        max_id = int(max_id) + 1
+    except ValueError:
+        max_id = 1
 
-    :param url: str , url page to save
-    :param site_parse_name: str, path like 'html_pages_ictv' - name of dir where you want to save pages of this site
-    :param root_path: str, the main path to dir to where will be all dirs of sites (like os.getcwd())
-    :return: cache page to parse in later
-    """
-    session = boto3.session.Session()
-    client = session.client('s3',
-                            region_name='nyc3',
-                            endpoint_url='https://fra1.digitaloceanspaces.com',
-                            aws_access_key_id='4X7VNYMKWLTZV5G5JXEV',
-                            aws_secret_access_key='dmifQIBG5a8hzPcBXsohAnDeJCfMrY2W5ryOE87U1fE')
+    urls_article = []
+    n_article = -1
 
-    filename = slugify(url) + ".html"
+    print("max_id", max_id)
+    for n_page in range(500, NUMBER_PAGES):
+        print("n_page", n_page + 1)
+        if n_page + 1 == 1:
+            url = MAIN_URL
 
-    # create dir where html_page will be saved and save it if those page not in this dir
-    temp_directory = Path(os.path.join(os.path.join(os.getcwd(), 'html_pages', site_parse_name)))
-    temp_directory.mkdir(exist_ok=True)
-    html_pages_path = os.path.join(os.path.join(os.path.join(os.getcwd(), 'html_pages'),
-                                                site_parse_name))
+        else:
+            url = MAIN_URL_PAGE_FROM2 + str(n_page + 1) + '/'
 
-    if filename not in os.listdir(html_pages_path):
-        while True:
-            try:
-                r = requests.get(url)
+        stop_requests = 0
+        flag_bad_request_for_page = 0
+
+        session = requests.Session()
+        session.max_redirects = 60
+
+        while str(session.get(url,
+                              headers={
+                                  "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
+                                                "Gecko/20100101 Firefox/74.0"})).strip() != "<Response [200]>":
+            time.sleep(3)
+
+            stop_requests += 1
+            if stop_requests == 10:
+                print()
+                print("error!!!!!!!!!!!!!!!", session.get(url))
+                flag_bad_request_for_page = 1
                 break
+
+        if flag_bad_request_for_page == 1:
+            continue
+
+        html_page = session.get(url,
+                                headers={
+                                    "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
+                                                  "Gecko/20100101 Firefox/74.0"}).text
+        soup = BeautifulSoup(html_page, 'html.parser')
+        # all_articles = soup.find_all("article")
+        # # flag_video = 0
+        #
+        # for article in all_articles:
+        all_span = soup.find_all("a", {"class": "lbn_link"})
+        n_article += 1
+        for span in all_span:
+            # print("span", span)
+            if "Відео" in str(span):
+                # flag_video = 1
+                # break
+                continue
+            #
+            # if flag_video == 1:
+            #     flag_video = 0
+            #     continue
+            # all_a = article.find_all("a")
+            url_article = span.get("href")
+            print()
+            article_title, article_date, article_text = parse_article_pages(url_article)
+            if article_title is None:
+                continue
+
+            article_text = str(article_text).strip()
+            print("article_title", article_title)
+            try:
+                db.session.rollback()
+                if db.session.query(Article.id).filter_by(title=article_title).scalar() is not None:
+                    print("Found in db")
+                    continue
+
+            except sqlite3.IntegrityError:
+                continue
+            except sqlalchemy.exc.IntegrityError:
+                continue
+
+            translator = Translator()
+            try:
+                src_lang = translator.translate(article_title).src
+            except json.decoder.JSONDecodeError:
+                time.sleep(3)
+                translator = Translator()
+                src_lang = translator.translate(article_title).src
+
+            # REINITIALIZE THE API
+            translator = Translator()
+            try:
+                translated = translator.translate(article_title, src=src_lang, dest="en")
+                article_title_en = translated.text
             except Exception as e:
-                print(e.with_traceback())
-                time.sleep(1)
-        with open(os.path.join(html_pages_path, filename), "w", encoding="utf-8") as f:
-            f.write(r.text)
-    with open(os.path.join(html_pages_path, filename), encoding="utf-8") as f:
-        text = f.read()
+                print(str(e))
+            article_title_en = ""
 
-    tmp_file = os.path.join(html_pages_path, filename)
-    client.upload_file(tmp_file, 'ai-scrapper', os.path.join(root_path, filename).replace("\\", "/"))
-    return text
+            resource_end_pos = url_article.find("/ua")
+            resource = url_article[:resource_end_pos + 3]
+            print("article_text", article_text)
+
+            new_article = Article(id=max_id,
+                                  title=article_title,
+                                  title_en=article_title_en,
+                                  text=article_text,
+                                  date=article_date,
+                                  resource=resource,
+                                  url=url_article)
+
+            max_id += 1
+
+            try:
+                db.session.add(new_article)
+                db.session.commit()
+                db.session.flush()
+                db.create_all()
+            except sqlalchemy.exc.IntegrityError:
+                continue
+
+        try:
+            db.session.rollback()
+            db.session.commit()
+            db.create_all()
+        except sqlalchemy.exc.IntegrityError:
+            continue
 
 
-def clean_html(raw_html):
-    """
-
-    :param raw_html: str
-    :return: clean the raw from tags
-    """
-    clean_raw = re.compile('<.*?>')
-    clean_text = re.sub(clean_raw, '', raw_html)
-    return clean_text
-
-
-def parse_course_pages(url, table):
-    """
-
-    :param url: str
-    :param table: a dict to save parsed information
-    :return: a dict with parsed information
-    """
-    temp_dir = os.getcwd()
-    os.chdir("..")
-    os.chdir("..")
-    html_page = cache_page(url, os.getcwd(), 'html_pages_ictv')
+def parse_article_pages(url):
+    session = requests.Session()
+    session.max_redirects = 60
+    try:
+        html_page = session.get(url).text
+    except requests.exceptions.TooManyRedirects:
+        return None, None, None
 
     soup = BeautifulSoup(html_page, 'html.parser')
 
-    os.chdir(temp_dir)
-    # today_news in json
     try:
-        all_main_today_news = soup.find_all("div", {"class": "fn_list_wrap"})
-        all_main_today_news_a = all_main_today_news[0].find_all("a")
-        for num, news_a0 in enumerate(all_main_today_news_a):
-            news_dict = dict()
-            news_a = str(news_a0)
-            start_link = news_a.find('http')
-            end_link = news_a.find('">')
-            news_dict['link'] = news_a[start_link: end_link]
+        all_h1 = soup.find_all("h1")
+        title = all_h1[0].string
+    except IndexError as error:
+        print("error", error)
+        title = ""
 
-            news_dict['news'] = clean_html(news_a)
-            table['today_news' + str(num + 1)] = news_dict
-    except:
-        pass
+    try:
+        all_span = soup.find_all("time")
+        date = all_span[0].string
+    except IndexError as error:
+        print("error", error)
+        date = ""
 
-    return table
+    try:
+        all_text = soup.find_all("div", {"class": "kv-post-content-text"})
+        clean_text = BeautifulSoup(str(all_text[0]), "lxml").text
+        end_text_pos = clean_text.find("var googletag")
+        clean_text = clean_text[:end_text_pos].strip()
+    except IndexError as error:
+        print("error", error)
+        clean_text = ""
 
-
-def find_today_news(url):
-    """
-
-    :param url: a url to parse
-    :return: a dictionary with parsed today's news
-    """
-    today_news_dict = dict()
-    now = datetime.now()
-    timestamp = now.strftime("%Y-%m-%d-%H-%M-%S")
-
-    root_path = os.path.join('html_pages', timestamp).replace("\\", "/")
-
-    today_news_dict = parse_course_pages(url, today_news_dict)
-    pprint(today_news_dict)
-    # with open(os.path.join(os.getcwd(), 'facty_ictv_today_news', 'facty_main_today_news' + str(now) + '.json'), "w",
-    #           encoding="utf-8") as f:
-    #     json.dump(courses_for_profession, f, indent=4, ensure_ascii=False)
+    return title, date, clean_text
 
 
 if __name__ == '__main__':
-    url = "https://fakty.com.ua/ua/news/"
-    data = requests.get(url,
-                        headers={
-                            "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
-                                          "Gecko/20100101 Firefox/74.0"})
-
-    find_today_news(url)
+    parse_main_pages()
