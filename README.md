@@ -89,7 +89,7 @@ If it is a visualization of the research result, then the user does not enter an
 
 
 
-### Опис тестових прикладів для первірки працездатності програми
+### Description of test examples to check the functionality of the program
 
 To test fake_news_classifier.py, several changes were used in the test articles after randomly distributing a plurality of articles from the train_model.csv file and replacing the first article of the array to test the health of the my_test_model.csv file.
 
@@ -109,7 +109,7 @@ Received articles from various news portals:
 # Usage:
 
 I was unable to run the web application on heroku due to timeout restrictions, however
-the application is fully functional if run locally. You can see my efforts to launch the web application at the link - but it falls on page 3 via TIMEOUT. You can enter any news, but the algorithm will find better those headlines,
+the application is fully functional if run locally. You can see my efforts to launch the web application at the link - https://true-news-finder.herokuapp.com/, but it falls on page 3 via TIMEOUT. You can enter any news, but the algorithm will find better those headlines,
 which have been popular recently, for example:
 
 ```
