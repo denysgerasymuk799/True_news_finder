@@ -1,5 +1,4 @@
 # Fake_news_finder
-Містить результати виконання домашніх завдань. 
 
 ![Fake news](static/fake_news.gif)
 

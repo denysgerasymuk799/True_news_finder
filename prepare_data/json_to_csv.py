@@ -4,6 +4,12 @@ import os
 
 
 def write_to_csv(filename, result_filename):
+    """
+
+    :param filename: str
+    :param result_filename: str
+    :return: write in csv from json
+    """
     path_to_write = os.path.join('.ipynb_checkpoints', filename)
     temp_dir = os.getcwd()
     os.chdir("..")

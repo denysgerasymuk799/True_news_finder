@@ -21,6 +21,7 @@ def date_range(start_date, end_date):
 
 
 def parse_all_pages(filename):
+    """parse main pages to get all data"""
     with open(filename, "r", encoding="utf-8") as file:
         urls_article = json.load(file)
 
@@ -114,6 +115,7 @@ def parse_all_pages(filename):
 
 
 def get_html_pages(url_main, driver, urls_dict):
+    """ write urls in files"""
     driver.get(url_main)
 
     flag_error = 0
@@ -139,6 +141,7 @@ def get_html_pages(url_main, driver, urls_dict):
 
 
 def parse_all_main_pages():
+    """get urls from pages"""
     binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe")
     driver = webdriver.Firefox(firefox_binary=binary,
                                executable_path=r'C:\Program Files\geckodriver-v0.26.0-win64\\geckodriver.exe')

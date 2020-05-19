@@ -5,6 +5,7 @@ from site_parse.translate_title import translate_title
 
 
 def write_in_json(table_name, start_id, finish_id):
+    """write from db in json for translating titles on english"""
     titles_dict = {}
     for article_id in range(start_id, finish_id):
         print("article_id", article_id)
@@ -24,6 +25,7 @@ def write_in_json(table_name, start_id, finish_id):
 
 
 def translate_titles(start_id, finish_id):
+    """translate titles on english"""
     with open("files_for_prepare_data/titles_en2.json", "r", encoding="utf-8") as file:
         titles_dict = json.load(file)
 
@@ -42,6 +44,7 @@ def translate_titles(start_id, finish_id):
 
 
 def write_in_db():
+    """write in db from jsins with translated titles"""
     with open("files_for_prepare_data/titles_en2.json", "r", encoding="utf-8") as file:
         titles_dict = json.load(file)
 

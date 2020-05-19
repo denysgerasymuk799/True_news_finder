@@ -8,6 +8,14 @@ from prepare_data.translate_text import translate_text
 
 
 def write_in_json(title, text, label, n_last_article=0):
+    """
+
+    :param title: str
+    :param text: str
+    :param label: str
+    :param n_last_article: int
+    :return: write in json for ml
+    """
     temp_dir = os.getcwd()
     os.chdir("..")
     path_to_write = os.path.join(os.getcwd(), '.ipynb_checkpoints', 'package.json')
@@ -71,8 +79,8 @@ def write_in_json(title, text, label, n_last_article=0):
 
 
 def main():
-     num_last_article = write_in_json("Article", "Disproof text", "REAL")
-     num_last_article = write_in_json("FN Title", "FN text", "FAKE", num_last_article)
+    num_last_article = write_in_json("Article", "Disproof text", "REAL")
+    num_last_article = write_in_json("FN Title", "FN text", "FAKE", num_last_article)
 
 
 if __name__ == '__main__':

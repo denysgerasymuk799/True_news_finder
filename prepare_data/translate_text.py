@@ -7,6 +7,12 @@ from flask_app.data_structures.array import Array
 
 
 def translate_text(article, dest_lang):
+    """
+
+    :param article: str
+    :param dest_lang: str, language in which you want to translate
+    :return: return translated text on dest_lang
+    """
     article_array = Array(1)
     new_rows = Array(100)
     article_array[0] = article

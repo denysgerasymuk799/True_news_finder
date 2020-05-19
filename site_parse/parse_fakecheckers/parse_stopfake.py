@@ -16,6 +16,7 @@ NUMBER_PAGES = 78
 
 
 def parse_main_pages():
+    """parse main pages to get main url and titles"""
     urls_article = []
     n_article = -1
     try:
@@ -121,11 +122,10 @@ def parse_main_pages():
             db.create_all()
         except sqlalchemy.exc.IntegrityError:
             continue
-        # with open("stopfake_data.json", "w", encoding="utf-8") as file:
-        #     json.dump(json_data, file, indent=4, ensure_ascii=False)
 
 
 def parse_article_pages(url):
+    """parse special page"""
     html_page = requests.get(url).text
 
     soup = BeautifulSoup(html_page, 'html.parser')

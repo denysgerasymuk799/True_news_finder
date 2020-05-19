@@ -1,9 +1,7 @@
 """
 Libraries for reform all date in special form
 """
-import datetime
 import re
-from datetime import datetime
 
 from sqlalchemy import desc
 
@@ -65,18 +63,7 @@ def create_date_form(table_name, start_id, finish_id):
 
 
 if __name__ == '__main__':
-    # create_date_form("Article", 42000, 42900)
-    # entities = Article.query.order_by(desc(Article.time)).limit(3).all()
-    # entities2 = Article.query.order_by(desc(Article.date)).limit(1000).all()
-    # print(entities2)
-    date_string2 = "16:05, 14.11.2019"
-    date_string3 = "2020-05-14T19:11:00+03:00"
-    date_string = "Грудень, 06, 2019 о 14:12"
-    date1 = "Травень, 08 в 8:56"
-    date2 = "29 Квітня, 2020 - 19:09"
-    date2 = "October 03, 2019"
-    print(transform_date(date_string2))
-    print(transform_date(date_string3))
-    print(transform_date(date_string))
-    print(transform_date(date1))
-    print(transform_date(date2))
+    create_date_form("Article", 42000, 42900)
+    entities = Article.query.order_by(desc(Article.time)).limit(3).all()
+    entities2 = Article.query.order_by(desc(Article.date)).limit(1000).all()
+    print(entities2)

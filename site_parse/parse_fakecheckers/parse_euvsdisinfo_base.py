@@ -5,15 +5,16 @@ import sqlalchemy
 import requests
 from bs4 import BeautifulSoup
 
-from app import db, Article, ArticleFakeChecker2
+from flask_app.app import db, Article, ArticleFakeChecker2
 
-from site_parse.parse_true_sites.parse_tsn import translate_title
+from site_parse.translate_title import translate_title
 
 MAIN_URL = "https://euvsdisinfo.eu/news/"
 MAIN_URL_PAGE_FROM2 = "https://euvsdisinfo.eu/news/page/"
 
 
 def parse_main_pages(site_name, url_main, url_page2, class_articles, class_title, class_date, class_text):
+    """parse pages to get main information"""
     try:
         last_article = db.session.query(ArticleFakeChecker2).order_by(ArticleFakeChecker2.id.desc()).first()
         max_id_pos_start = str(last_article).find("id=")
@@ -111,18 +112,16 @@ def parse_main_pages(site_name, url_main, url_page2, class_articles, class_title
         if str(article_date).split(", ")[-1].strip() == "2018" or n_page >= 700:
             flag_old_news = 1
 
-        # try:
-        #     db.session.rollback()
-        #     db.session.commit()
-        #     db.create_all()
-        # except sqlalchemy.exc.IntegrityError:
-        #     continue
-        # with open("stopfake_data.json", "w", encoding="utf-8") as file:
-        #     json.dump(json_data, file, indent=4, ensure_ascii=False)
-        # if article_date
+        try:
+            db.session.rollback()
+            db.session.commit()
+            db.create_all()
+        except sqlalchemy.exc.IntegrityError:
+            continue
 
 
 def parse_article_pages(url, class_title, class_date, class_text):
+    """parse special page"""
     html_page = requests.get(url).text
 
     soup = BeautifulSoup(html_page, 'html.parser')

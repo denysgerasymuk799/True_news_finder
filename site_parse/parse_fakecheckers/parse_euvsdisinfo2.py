@@ -12,6 +12,7 @@ MAIN_URL_PAGE_FROM2 = "https://euvsdisinfo.eu/news/page/"
 
 
 def parse_main_pages():
+    """parse pages to get main information"""
     try:
         last_article = db.session.query(ArticleFakeChecker2).order_by(ArticleFakeChecker2.id.desc()).first()
         max_id_pos_start = str(last_article).find("id=")
@@ -97,6 +98,7 @@ def parse_main_pages():
 
 
 def parse_article_pages(url):
+    """parse special page"""
     html_page = requests.get(url).text
 
     soup = BeautifulSoup(html_page, 'html.parser')

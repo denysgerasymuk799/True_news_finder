@@ -16,6 +16,7 @@ NUMBER_PAGES = 800
 
 
 def parse_main_pages():
+    """parse main pages to get all data"""
     try:
         last_article = db.session.query(Article).order_by(Article.id.desc()).first()
         max_id_pos_start = str(last_article).find("id=")
@@ -25,7 +26,6 @@ def parse_main_pages():
     except ValueError:
         max_id = 1
 
-    urls_article = []
     n_article = -1
 
     print("max_id", max_id)
@@ -64,23 +64,14 @@ def parse_main_pages():
                                     "user-agent": "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:54.0)"
                                                   "Gecko/20100101 Firefox/74.0"}).text
         soup = BeautifulSoup(html_page, 'html.parser')
-        # all_articles = soup.find_all("article")
-        # # flag_video = 0
-        #
-        # for article in all_articles:
+
         all_span = soup.find_all("a", {"class": "lbn_link"})
         n_article += 1
         for span in all_span:
-            # print("span", span)
             if "Відео" in str(span):
-                # flag_video = 1
-                # break
+
                 continue
-            #
-            # if flag_video == 1:
-            #     flag_video = 0
-            #     continue
-            # all_a = article.find_all("a")
+
             url_article = span.get("href")
             print()
             article_title, article_date, article_text = parse_article_pages(url_article)
@@ -148,6 +139,7 @@ def parse_main_pages():
 
 
 def parse_article_pages(url):
+    """parse special pages to get certain data"""
     session = requests.Session()
     session.max_redirects = 60
     try:

@@ -5,6 +5,7 @@ from googletrans import Translator
 
 
 def translate_title(article_title):
+    """translate title on english"""
     translator = Translator()
     try:
         src_lang = translator.translate(article_title).src
