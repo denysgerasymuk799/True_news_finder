@@ -4,9 +4,7 @@
         <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
             <li class="cta"><a href="{{ url_for('input_article') }}"
                 class="nav-link"><span>Input other article</span></a></li>
-        </ul>
 
-        <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
             <li class="cta"><a href="#sort_by_date"
                                                     class="nav-link"><span>Sort by Date</span></li>
             <li class="cta"><a href="#sort_by_similarity"
@@ -28,6 +26,7 @@
         #sort_by_date, #sort_by_similarity{
             margin-left: 10%;
         }
+
 	</style>
 
     <div class="site-section courses-title" id="courses-section">
@@ -76,15 +75,9 @@
 
     <div id="sort_by_date">
         <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
-            <p></p>
-            <p></p>
-            <p></p>
             <label for="first_date" class="section-title">
                 Sorted by date
             </label>
-            <p></p>
-            <p></p>
-            <p></p>
             <div id="first_date" class="container">
                 <div class="col-12">
                 {% for article in articles2 %}

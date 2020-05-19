@@ -6,10 +6,13 @@ import time
 
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from textblob import TextBlob
 
+from flask_app.get_similar_articles import cosine_sim
 from flask_app.my_config import Config
 
 from flask_app.data_structures.linked_list import LinkedList
+from site_parse.translate_title import translate_title
 
 app = Flask(__name__)
 
@@ -109,81 +112,82 @@ def get_sites():
         user_article_text = request.args['user_article_text']
         print("user_article_title2", user_article_title)
         print("user_article_title23", user_article_text)
+        same_articles = get_similar(user_article_title)
 
-        text1 = """Контрольно-пропускной пункт "Шегини" в Мостицком районе Львовской области (на границе с Польшей) возобновит свою работу. Такое решение было принято сегодня, 13 мая, на заседании Кабинета министров в рамках ослабления карантина.Отметим, что с предложением открыть данный пропускной пункт выступил министр внутренних дел Арсен Аваков. Члены Кабмина его поддержали. КПП откроют со дня опубликования соответствующего постановления.Как сообщал сайт "Сегодня", ранее Кабинет министров в связи с распространением коронавирусной инфекции закрыл пункты пропуска, которые расположены на границе с Польшей, Румынией и Молдовой.Реклама
-
-        elemVisibleListener(document.querySelector('.adsbygoogle'), function(){
-            var s = document.createElement('script'),
-                c = document.head || document.body || document.documentElement;"""
-        
-        text2 = """At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals.
-Russia has been spreading its reach into Africa: Time magazine recently described Russia’s close ties with the Head of State of Sudan and it seems that the presidential elections in Madagascar have also been in their cross-hairs.
-According to the investigation by Proekt, the elections held in November and December 2018 were accompanied by bot activity in VKontakte. Dozens of VKontakte communities with Madagascar mentioned in their name received a post featuring a map of the island with a link to an article about elections. Proekt counted 33 such posts and all of them referred to Politics Today, a site with ties to Yevgeny Prigozhin who also controls the IRA known as the St. Petersburg troll factory.
-But the Russians go further than VKontakte. In a report by the BBC, one of the candidates, Pastor Andre Mailhol, described how he received a visit from three Russians: Andrei Kramar who has strong political connections, Roman Pozdnyakov with background in business and Vladimir Boyarishchev with a history in the diamond trade. The trio handed him 5000 euros in cash and contributed 12 000 euros to his campaign. The string attached to this gift of thousands of euros? A signature on a document that promised to support the candidate in the second round who also had the backing of the Russians. Mailhol also claims that there were other candidates the Russians approached with a similar offer.
-Although there is no information about the Russian trio visiting the world-famous Antsirabe Cathedral to admire its spire, there was plenty of evidence of them being near a mock demonstration with anti-western messages, near the French embassy.
-The BBC’s report also questions who is financing the Russians in Madagascar and points a finger at Yevgeny Prigozhin. But the BBC isn’t alone. According to Bloomberg “Prigozhin and his hodgepodge of contract soldiers and political operatives are offering security, arms training and electioneering services in exchange for mining rights and other opportunities, two people familiar with the matter said. He’s already active in or moving into 10 countries that Russia’s military already has relationships with: the Democratic Republic of Congo, Sudan, Libya, Madagascar, Angola, Guinea, Guinea-Bissau, Mozambique, Zimbabwe and the Central African Republic.”
-See all News and analysisFacebookTwitter"""
-        
-        text3 = "At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals. Реклама 6546546469846"
-
-        str_text1 = str(text1).split(".")
-        if len(str_text1) == 2:
-            text1 = str_text1[0]
-
-        else:
-            text1 = str_text1[0] + '.' + str_text1[1]
-        
-        str_text1 = str(text2).split(".")
-        if len(str_text1) == 2:
-            text2 = str_text1[0]
-
-        else:
-            text2 = str_text1[0] + '.' + str_text1[1]
-        
-        str_text1 = str(text3).split(".")
-        if len(str_text1) == 2:
-            text3 = str_text1[0] + "."
-
-        else:
-            text3 = str_text1[0] + '.' + str_text1[1]
-
-        same_articles = LinkedList("h1",
-                                   "2020-01-1",
-                                   0.01,
-                                   "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                                   "https://tsn.ua/",
-                                   text1)
-
-        same_articles.add("h2",
-                          "2020-01-01",
-                          0.011,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text2)
-
-        same_articles.add("h3",
-                          "2020-03-1",
-                          0.03,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text3)
-
-        same_articles.add("h3",
-                          "2019-01-1",
-                          0.03,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text3)
-
-        same_articles.add("h3",
-                          "2020-9-1",
-                          -0.03,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text3)
+#         text1 = """Контрольно-пропускной пункт "Шегини" в Мостицком районе Львовской области (на границе с Польшей) возобновит свою работу. Такое решение было принято сегодня, 13 мая, на заседании Кабинета министров в рамках ослабления карантина.Отметим, что с предложением открыть данный пропускной пункт выступил министр внутренних дел Арсен Аваков. Члены Кабмина его поддержали. КПП откроют со дня опубликования соответствующего постановления.Как сообщал сайт "Сегодня", ранее Кабинет министров в связи с распространением коронавирусной инфекции закрыл пункты пропуска, которые расположены на границе с Польшей, Румынией и Молдовой.Реклама
+#
+#         elemVisibleListener(document.querySelector('.adsbygoogle'), function(){
+#             var s = document.createElement('script'),
+#                 c = document.head || document.body || document.documentElement;"""
+#
+#         text2 = """At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals.
+# Russia has been spreading its reach into Africa: Time magazine recently described Russia’s close ties with the Head of State of Sudan and it seems that the presidential elections in Madagascar have also been in their cross-hairs.
+# According to the investigation by Proekt, the elections held in November and December 2018 were accompanied by bot activity in VKontakte. Dozens of VKontakte communities with Madagascar mentioned in their name received a post featuring a map of the island with a link to an article about elections. Proekt counted 33 such posts and all of them referred to Politics Today, a site with ties to Yevgeny Prigozhin who also controls the IRA known as the St. Petersburg troll factory.
+# But the Russians go further than VKontakte. In a report by the BBC, one of the candidates, Pastor Andre Mailhol, described how he received a visit from three Russians: Andrei Kramar who has strong political connections, Roman Pozdnyakov with background in business and Vladimir Boyarishchev with a history in the diamond trade. The trio handed him 5000 euros in cash and contributed 12 000 euros to his campaign. The string attached to this gift of thousands of euros? A signature on a document that promised to support the candidate in the second round who also had the backing of the Russians. Mailhol also claims that there were other candidates the Russians approached with a similar offer.
+# Although there is no information about the Russian trio visiting the world-famous Antsirabe Cathedral to admire its spire, there was plenty of evidence of them being near a mock demonstration with anti-western messages, near the French embassy.
+# The BBC’s report also questions who is financing the Russians in Madagascar and points a finger at Yevgeny Prigozhin. But the BBC isn’t alone. According to Bloomberg “Prigozhin and his hodgepodge of contract soldiers and political operatives are offering security, arms training and electioneering services in exchange for mining rights and other opportunities, two people familiar with the matter said. He’s already active in or moving into 10 countries that Russia’s military already has relationships with: the Democratic Republic of Congo, Sudan, Libya, Madagascar, Angola, Guinea, Guinea-Bissau, Mozambique, Zimbabwe and the Central African Republic.”
+# See all News and analysisFacebookTwitter"""
+#
+#         text3 = "At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals. Реклама 6546546469846"
+#
+#         str_text1 = str(text1).split(".")
+#         if len(str_text1) == 2:
+#             text1 = str_text1[0]
+#
+#         else:
+#             text1 = str_text1[0] + '.' + str_text1[1]
+#
+#         str_text1 = str(text2).split(".")
+#         if len(str_text1) == 2:
+#             text2 = str_text1[0]
+#
+#         else:
+#             text2 = str_text1[0] + '.' + str_text1[1]
+#
+#         str_text1 = str(text3).split(".")
+#         if len(str_text1) == 2:
+#             text3 = str_text1[0] + "."
+#
+#         else:
+#             text3 = str_text1[0] + '.' + str_text1[1]
+#
+#         same_articles = LinkedList("h1",
+#                                    "2020-01-1",
+#                                    0.01,
+#                                    "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                                    "https://tsn.ua/",
+#                                    text1)
+#
+#         same_articles.add("h2",
+#                           "2020-01-01",
+#                           0.011,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text2)
+#
+#         same_articles.add("h3",
+#                           "2020-03-1",
+#                           0.03,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text3)
+#
+#         same_articles.add("h3",
+#                           "2019-01-1",
+#                           0.03,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text3)
+#
+#         same_articles.add("h3",
+#                           "2020-9-1",
+#                           -0.03,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text3)
 
         print("get")
-        # print(same_articles)
+        print(same_articles)
         # print(text1)
         # print(text2)
         # print(text3)
@@ -201,22 +205,108 @@ See all News and analysisFacebookTwitter"""
                                sort_parameter="similarity")
 
 
-@app.route('/get_sites_by_date', methods=['POST', 'GET'])
-def get_sites_by_date():
-    if request.method == 'GET':
-        same_articles = request.args['articles']
-        print("same_articles", same_articles.int_head.title)
+def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
+                     same_articles="", additional=""):
+    for article_id in range(n_start_article, n_finish_article):
+        print("article_id", article_id)
+        article_from_db = ''
+        if table_name == "ArticleFakeChecker2":
+            # try:
+            article_from_db = ArticleFakeChecker2.query.filter_by(id=article_id).first()
+            # except sqlalchemy.orm.exc.FlushError:
 
-        same_articles.int_head = same_articles.merge_sort(same_articles.int_head, "date")
+        elif table_name == "Article":
+            article_from_db = Article.query.filter_by(id=article_id).first()
 
-        same_articles_head = same_articles.int_head
+        if article_from_db is not None:
+            # start_key_words = str(article_from_db.key_words).find("key_words=") + 10
+            # end_key_words = str(article_from_db.key_words).find("key_words>") - 1
+            # key_words_article = str(article_from_db.key_words)[start_key_words: end_key_words]
+            # article_title_from_db = ' '.join(str(key_words_article).split(", "))
 
-        time.sleep(3)
-        return render_template("one_section.html", articles=same_articles,
-                               images_dict=IMAGES_DICT, article=same_articles_head,
-                               sort_parameter="date")
+            # if additional == "keywords_in_db":
+            blob = TextBlob(article_from_db.title)
+            title_key_words = blob.noun_phrases
+            # key_words = ', '.join(title_key_words)
+            # print("key_words", key_words)
+            # article_key_words = ArticleKeyWord(title_en=article_from_db.title_en,
+            #                                    key_words=key_words)
+            # article_from_db.key_words.append(article_key_words)
+            # db.create_all()
+            # try:
+            #     db.session.commit()
+            # except sqlite3.IntegrityError:
+            #     continue
+
+            title_key_words = ' '.join(title_key_words)
+
+            # else:
+            #     article_key_words = ArticleKeyWord.query.filter_by(id=article_id).first()
+            #     title_key_words = str(article_key_words)
+
+            same_articles_num = cosine_sim(user_title, title_key_words)
+
+            print()
+            print("article_title_from_db", article_from_db.title)
+            print("title_key_words", title_key_words)
+            print(article_from_db.title_en)
+            print("same_articles_num", same_articles_num)
+            # if flag_same_articles == 1:
+
+            if same_articles_num >= 0.2:
+                print("same article", article_from_db.title, article_from_db.url)
+                str_article_from_db = str(article_from_db.text).split(".")
+                if len(str_article_from_db) == 2:
+                    article_from_db.text = str_article_from_db[0]
+
+                else:
+                    article_from_db.text = str_article_from_db[0] + '.' + str_article_from_db[1]
+
+                if not isinstance(same_articles, LinkedList):
+                    same_articles = LinkedList(article_from_db.title,
+                                               article_from_db.date,
+                                               same_articles_num,
+                                               article_from_db.url,
+                                               article_from_db.resource,
+                                               article_from_db.text)
+
+                else:
+                    same_articles.add(article_from_db.title,
+                                      article_from_db.date,
+                                      same_articles_num,
+                                      article_from_db.url,
+                                      article_from_db.resource,
+                                      article_from_db.text)
+
+        if article_id == 3000:
+            break
+
+    return same_articles
+
+
+def get_similar(user_title, additional_function=""):
+    user_title = translate_title(user_title)
+
+    blob = TextBlob(user_title)
+    user_title_key_words = blob.noun_phrases
+    user_title_key_words = ' '.join(user_title_key_words)
+    print(user_title_key_words)
+
+    user_title_key_words = user_title
+    print(user_title_key_words)
+
+    same_articles = get_data_from_db(user_title_key_words, "ArticleFakeChecker2", 1, 926,
+                                     additional=additional_function)
+
+    same_articles = get_data_from_db(user_title_key_words, "Article", 1, 1451, same_articles,
+                                     additional=additional_function)
+    same_articles = get_data_from_db(user_title_key_words, "Article", 42000, 42800, same_articles,
+                                     additional=additional_function)
+
+    # print(same_articles)
+    return same_articles
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="5.53.116.125")
+    app.run(debug=True)
     # db.create_all()
