@@ -1,1 +1,1 @@
-web: cd flask_app && python -m textblob.download_corpora && gunicorn app.wsgi --timeout 600 --keep-alive 5 --log-level debug
+web: cd flask_app && python -m textblob.download_corpora && gunicorn app.wsgi --timeout 15 --keep-alive 5 --log-level debug && gunicorn app:app
