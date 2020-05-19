@@ -317,5 +317,5 @@ def get_similar(user_title, additional_function=""):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port="5.53.116.125")
     # db.create_all()
