@@ -210,8 +210,6 @@ def get_sites():
                                         "")
             same_articles2 = copy.deepcopy(same_articles)
 
-        # same_articles_head = same_articles.int_head
-
         time.sleep(3)
         return render_template("one_section.html", articles=same_articles,
                                articles2=same_articles2,
@@ -224,9 +222,7 @@ def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
         print("article_id", article_id)
         article_from_db = ''
         if table_name == "ArticleFakeChecker2":
-            # try:
             article_from_db = ArticleFakeChecker2.query.filter_by(id=article_id).first()
-            # except sqlalchemy.orm.exc.FlushError:
 
         elif table_name == "Article":
             article_from_db = Article.query.filter_by(id=article_id).first()
@@ -248,22 +244,11 @@ def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
                     db.session.commit()
                 except sqlite3.IntegrityError:
                     continue
-            #
-            # else:
-            #     print("Found in db or not additional function")
-            #     article_key_words = ArticleKeyWord.query.filter_by(id=article_id).first()
-            #     if article_key_words is not None:
-            #         article_key_words = article_key_words.key_words
-            #         title_key_words = str(article_key_words).split(",")
-            #     else:
-            #         title_key_words = article_from_db.title_en
 
-            # title_key_words = ' '.join()
             same_articles_num = cosine_sim(user_title, article_from_db.title_en)
 
             print()
             print("article_title_from_db", article_from_db.title)
-            # print("title_key_words", title_key_words)
             print(article_from_db.title_en)
             print("same_articles_num", same_articles_num)
 
@@ -317,5 +302,4 @@ def get_similar(user_title, additional_function=""):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port="5.53.116.125")
-    # db.create_all()
+    app.run(debug=True, port=33507)
