@@ -8,6 +8,7 @@
 Fake news finder
     
 # Description: 
+Demo video - https://youtu.be/1R85cqaMyVA
 The project aims to identify how reliable the news is in 4 categories: lies, cunning news, maybe true, true.
 Users also have the opportunity to receive news-confirmation or proof-refutation of the entered link to the news.
 
