@@ -112,79 +112,79 @@ def get_sites():
         user_article_text = request.args['user_article_text']
         print("user_article_title2", user_article_title)
         print("user_article_title23", user_article_text)
-        # same_articles = get_similar(user_article_title)
-
-        text1 = """Контрольно-пропускной пункт "Шегини" в Мостицком районе Львовской области (на границе с Польшей) возобновит свою работу. Такое решение было принято сегодня, 13 мая, на заседании Кабинета министров в рамках ослабления карантина.Отметим, что с предложением открыть данный пропускной пункт выступил министр внутренних дел Арсен Аваков. Члены Кабмина его поддержали. КПП откроют со дня опубликования соответствующего постановления.Как сообщал сайт "Сегодня", ранее Кабинет министров в связи с распространением коронавирусной инфекции закрыл пункты пропуска, которые расположены на границе с Польшей, Румынией и Молдовой.Реклама
-
-        elemVisibleListener(document.querySelector('.adsbygoogle'), function(){
-            var s = document.createElement('script'),
-                c = document.head || document.body || document.documentElement;"""
-
-        text2 = """At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals.
-Russia has been spreading its reach into Africa: Time magazine recently described Russia’s close ties with the Head of State of Sudan and it seems that the presidential elections in Madagascar have also been in their cross-hairs.
-According to the investigation by Proekt, the elections held in November and December 2018 were accompanied by bot activity in VKontakte. Dozens of VKontakte communities with Madagascar mentioned in their name received a post featuring a map of the island with a link to an article about elections. Proekt counted 33 such posts and all of them referred to Politics Today, a site with ties to Yevgeny Prigozhin who also controls the IRA known as the St. Petersburg troll factory.
-But the Russians go further than VKontakte. In a report by the BBC, one of the candidates, Pastor Andre Mailhol, described how he received a visit from three Russians: Andrei Kramar who has strong political connections, Roman Pozdnyakov with background in business and Vladimir Boyarishchev with a history in the diamond trade. The trio handed him 5000 euros in cash and contributed 12 000 euros to his campaign. The string attached to this gift of thousands of euros? A signature on a document that promised to support the candidate in the second round who also had the backing of the Russians. Mailhol also claims that there were other candidates the Russians approached with a similar offer.
-Although there is no information about the Russian trio visiting the world-famous Antsirabe Cathedral to admire its spire, there was plenty of evidence of them being near a mock demonstration with anti-western messages, near the French embassy.
-The BBC’s report also questions who is financing the Russians in Madagascar and points a finger at Yevgeny Prigozhin. But the BBC isn’t alone. According to Bloomberg “Prigozhin and his hodgepodge of contract soldiers and political operatives are offering security, arms training and electioneering services in exchange for mining rights and other opportunities, two people familiar with the matter said. He’s already active in or moving into 10 countries that Russia’s military already has relationships with: the Democratic Republic of Congo, Sudan, Libya, Madagascar, Angola, Guinea, Guinea-Bissau, Mozambique, Zimbabwe and the Central African Republic.”
-See all News and analysisFacebookTwitter"""
-
-        text3 = "At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals. Реклама 6546546469846"
-
-        str_text1 = str(text1).split(".")
-        if len(str_text1) == 2:
-            text1 = str_text1[0]
-
-        else:
-            text1 = str_text1[0] + '.' + str_text1[1]
-
-        str_text1 = str(text2).split(".")
-        if len(str_text1) == 2:
-            text2 = str_text1[0]
-
-        else:
-            text2 = str_text1[0] + '.' + str_text1[1]
-
-        str_text1 = str(text3).split(".")
-        if len(str_text1) == 2:
-            text3 = str_text1[0] + "."
-
-        else:
-            text3 = str_text1[0] + '.' + str_text1[1]
-
-        same_articles = LinkedList("h1",
-                                   "2020-01-1",
-                                   0.01,
-                                   "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                                   "https://tsn.ua/",
-                                   text1)
-
-        same_articles.add("h2",
-                          "2020-01-01",
-                          0.011,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text2)
-
-        same_articles.add("h3",
-                          "2020-03-1",
-                          0.03,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text3)
-
-        same_articles.add("h3",
-                          "2019-01-1",
-                          0.03,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text3)
-
-        same_articles.add("h3",
-                          "2020-9-1",
-                          -0.03,
-                          "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
-                          "https://fakty.com.ua/ua",
-                          text3)
+        same_articles = get_similar(user_article_title)
+#
+#         text1 = """Контрольно-пропускной пункт "Шегини" в Мостицком районе Львовской области (на границе с Польшей) возобновит свою работу. Такое решение было принято сегодня, 13 мая, на заседании Кабинета министров в рамках ослабления карантина.Отметим, что с предложением открыть данный пропускной пункт выступил министр внутренних дел Арсен Аваков. Члены Кабмина его поддержали. КПП откроют со дня опубликования соответствующего постановления.Как сообщал сайт "Сегодня", ранее Кабинет министров в связи с распространением коронавирусной инфекции закрыл пункты пропуска, которые расположены на границе с Польшей, Румынией и Молдовой.Реклама
+#
+#         elemVisibleListener(document.querySelector('.adsbygoogle'), function(){
+#             var s = document.createElement('script'),
+#                 c = document.head || document.body || document.documentElement;"""
+#
+#         text2 = """At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals.
+# Russia has been spreading its reach into Africa: Time magazine recently described Russia’s close ties with the Head of State of Sudan and it seems that the presidential elections in Madagascar have also been in their cross-hairs.
+# According to the investigation by Proekt, the elections held in November and December 2018 were accompanied by bot activity in VKontakte. Dozens of VKontakte communities with Madagascar mentioned in their name received a post featuring a map of the island with a link to an article about elections. Proekt counted 33 such posts and all of them referred to Politics Today, a site with ties to Yevgeny Prigozhin who also controls the IRA known as the St. Petersburg troll factory.
+# But the Russians go further than VKontakte. In a report by the BBC, one of the candidates, Pastor Andre Mailhol, described how he received a visit from three Russians: Andrei Kramar who has strong political connections, Roman Pozdnyakov with background in business and Vladimir Boyarishchev with a history in the diamond trade. The trio handed him 5000 euros in cash and contributed 12 000 euros to his campaign. The string attached to this gift of thousands of euros? A signature on a document that promised to support the candidate in the second round who also had the backing of the Russians. Mailhol also claims that there were other candidates the Russians approached with a similar offer.
+# Although there is no information about the Russian trio visiting the world-famous Antsirabe Cathedral to admire its spire, there was plenty of evidence of them being near a mock demonstration with anti-western messages, near the French embassy.
+# The BBC’s report also questions who is financing the Russians in Madagascar and points a finger at Yevgeny Prigozhin. But the BBC isn’t alone. According to Bloomberg “Prigozhin and his hodgepodge of contract soldiers and political operatives are offering security, arms training and electioneering services in exchange for mining rights and other opportunities, two people familiar with the matter said. He’s already active in or moving into 10 countries that Russia’s military already has relationships with: the Democratic Republic of Congo, Sudan, Libya, Madagascar, Angola, Guinea, Guinea-Bissau, Mozambique, Zimbabwe and the Central African Republic.”
+# See all News and analysisFacebookTwitter"""
+#
+#         text3 = "At least 6 of Madagascar’s presidential candidates were offered money by Russians, a BBC investigation reveals. Реклама 6546546469846"
+#
+#         str_text1 = str(text1).split(".")
+#         if len(str_text1) == 2:
+#             text1 = str_text1[0]
+#
+#         else:
+#             text1 = str_text1[0] + '.' + str_text1[1]
+#
+#         str_text1 = str(text2).split(".")
+#         if len(str_text1) == 2:
+#             text2 = str_text1[0]
+#
+#         else:
+#             text2 = str_text1[0] + '.' + str_text1[1]
+#
+#         str_text1 = str(text3).split(".")
+#         if len(str_text1) == 2:
+#             text3 = str_text1[0] + "."
+#
+#         else:
+#             text3 = str_text1[0] + '.' + str_text1[1]
+#
+#         same_articles = LinkedList("h1",
+#                                    "2020-01-1",
+#                                    0.01,
+#                                    "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                                    "https://tsn.ua/",
+#                                    text1)
+#
+#         same_articles.add("h2",
+#                           "2020-01-01",
+#                           0.011,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text2)
+#
+#         same_articles.add("h3",
+#                           "2020-03-1",
+#                           0.03,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text3)
+#
+#         same_articles.add("h3",
+#                           "2019-01-1",
+#                           0.03,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text3)
+#
+#         same_articles.add("h3",
+#                           "2020-9-1",
+#                           -0.03,
+#                           "https://ictv.ua/wp-content/uploads/from_old/2014/07/28/20140728175312.jpg",
+#                           "https://fakty.com.ua/ua",
+#                           text3)
 
         print("get")
         print(same_articles)
