@@ -4,6 +4,7 @@ import json
 import os
 import time
 
+import nltk
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from textblob import TextBlob
@@ -225,6 +226,7 @@ def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
             # article_title_from_db = ' '.join(str(key_words_article).split(", "))
 
             # if additional == "keywords_in_db":
+            nltk.download("https://github.com/sloria/TextBlob/issues")
             blob = TextBlob(article_from_db.title)
             title_key_words = blob.noun_phrases
             # key_words = ', '.join(title_key_words)
