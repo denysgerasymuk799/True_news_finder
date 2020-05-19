@@ -4,11 +4,11 @@
         <ul class="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
             <li class="cta"><a href="{{ url_for('input_article') }}"
                 class="nav-link"><span>Input other article</span></a></li>
-
             <li class="cta"><a href="#sort_by_date"
                                                     class="nav-link"><span>Sort by Date</span></li>
             <li class="cta"><a href="#sort_by_similarity"
                                class="nav-link"><span>Sort by Similarity</span></a></li>
+            <li class="cta"><a id="selected" href="#" class="nav-link"><span>View selected</span></a>
         </ul>
     </nav>
 {% endblock nav %}
@@ -39,14 +39,12 @@
             </div>
         </div>
 
+<form method="post" id="the-form" action="selected">
     <div id="sort_by_similarity">
         <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
             <label  for="first_similarity" class="section-title">
                Sorted by similarity
             </label>
-            <p></p>
-            <p></p>
-            <p></p>
             <div id="first_similarity" class="container">
                 <div class="col-12">
                 {% for article in articles %}
@@ -72,6 +70,9 @@
             </div>
         </div>
     </div>
+    <div class="col-1 custom-btn">
+        <a class="customNextBtn btn btn-primary" href="#">Next</a>
+    </div>
 
     <div id="sort_by_date">
         <div class="site-section courses-entry-wrap" data-aos="fade-up" data-aos-delay="100">
@@ -81,6 +82,7 @@
             <div id="first_date" class="container">
                 <div class="col-12">
                 {% for article in articles2 %}
+                    {% set outer_loop = loop %}
                     <div class="course bg-white mb-5">
                         <div class="col-3">
                             <figure class="m-0">
@@ -103,6 +105,8 @@
             </div>
         </div>
     </div>
+
+</form>
 
 <script type="text/javascript">// <![CDATA[
     function loading() {

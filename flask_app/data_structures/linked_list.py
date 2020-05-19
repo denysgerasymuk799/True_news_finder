@@ -9,7 +9,8 @@ class LinkedListIterator:
         if not self.current:
             raise StopIteration
         else:
-            article_dict = {"title": self.current.title,
+            article_dict = {"id": self.current.id,
+                            "title": self.current.title,
                             "date": self.current.date,
                             "similarity": self.current.similarity,
                             "url": self.current.url,
@@ -21,10 +22,10 @@ class LinkedListIterator:
 
 
 class Node:
-    def __init__(self, title, date, similarity, url, resource, text, next=None):
+    def __init__(self, id, title, date, similarity, url, resource, text, next=None):
         """Instantiates a Node with default next of None"""
-        self.title, self.date, self.url, self.resource, self.text, self.similarity =\
-            title, date, url, resource, text, similarity
+        self.id, self.title, self.date, self.url, self.resource, self.text, self.similarity = \
+            id, title, date, url, resource, text, similarity
 
         self.next = next
 
@@ -33,20 +34,20 @@ class Node:
 
 
 class TwoWayNode(Node):
-    def __init__(self, title, date, similarity, url, resource, text, previous=None, next=None):
+    def __init__(self, id, title, date, similarity, url, resource, text, previous=None, next=None):
         """Instantiates a TwoWayNode."""
-        super().__init__(title, date, similarity, url, resource, text, next)
+        super().__init__(id, title, date, similarity, url, resource, text, next)
         self.previous = previous
 
 
 class LinkedList:
     """Create a new Linked List for articles"""
-    def __init__(self, title, date, similarity, url, resource, text):
+    def __init__(self, id, title, date, similarity, url, resource, text):
         """
         title, date, url, resource: str
         same_words: a list of same words
         """
-        self.int_head = TwoWayNode(title, date, similarity, url, resource, text)
+        self.int_head = TwoWayNode(id, title, date, similarity, url, resource, text)
         self.int_tail = self.int_head
         self.length = 1
 
@@ -74,12 +75,12 @@ class LinkedList:
         result_str = result_str[:-2] + "\n}"
         return result_str
 
-    def add(self, title, date, similarity, url, resource, text):
+    def add(self, id, title, date, similarity, url, resource, text):
         """
         Add a new TwoWayNode to self.int_tail
         title, date, url, resource: str
         """
-        self.int_tail.next = TwoWayNode(title, date, similarity, url, resource, text, self.int_tail)
+        self.int_tail.next = TwoWayNode(id, title, date, similarity, url, resource, text, self.int_tail)
         self.int_tail = self.int_tail.next
         self.length += 1
 
