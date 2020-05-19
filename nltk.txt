@@ -2,5 +2,4 @@ wordnet
 pros_cons
 reuters
 punkt
-word_tokenize
 stem
