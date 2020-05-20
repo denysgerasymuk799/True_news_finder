@@ -1,0 +1,8 @@
+Data Structures
+===================
+.. automodule:: flask_app.data_structures.linked_list
+   :members:
+
+.. automodule:: flask_app.data_structures.array
+   :members:
+
