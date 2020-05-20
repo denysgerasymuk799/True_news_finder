@@ -107,9 +107,8 @@ Received articles from various news portals:
 
 # Usage:
 
-I was unable to run the web application on heroku due to timeout restrictions, however
-the application is fully functional if run locally. You can see my efforts to launch the web application at the link - https://true-news-finder.herokuapp.com/, but it falls on page 3 via TIMEOUT. You can enter any news, but the algorithm will find better those headlines,
-which have been popular recently, for example:
+The application is fully functional if run locally. Also you can see my web application at the link - https://true-news-finder.herokuapp.com/. You can enter any news, but the algorithm will find better those headlines,
+which have been popular recently approximately one month, for example:
 
 ```
 - Кремль готує росіян до повернення Криму Україні?
