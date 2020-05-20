@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Data Structures &#8212; True-news-finder 1.0.0 documentation</title>
+    <title>Data structures &#8212; True-news-finder 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,7 +32,7 @@
           <div class="body" role="main">
             
   <div class="section" id="module-flask_app.data_structures.linked_list">
-<span id="data-structures"></span><h1>Data Structures<a class="headerlink" href="#module-flask_app.data_structures.linked_list" title="Permalink to this headline">¶</a></h1>
+<span id="data-structures"></span><h1>Data structures<a class="headerlink" href="#module-flask_app.data_structures.linked_list" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="flask_app.data_structures.linked_list.LinkedList">
 <em class="property">class </em><code class="sig-prename descclassname">flask_app.data_structures.linked_list.</code><code class="sig-name descname">LinkedList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">title</span></em>, <em class="sig-param"><span class="n">date</span></em>, <em class="sig-param"><span class="n">similarity</span></em>, <em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">resource</span></em>, <em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.data_structures.linked_list.LinkedList" title="Permalink to this definition">¶</a></dt>
@@ -108,6 +108,319 @@ title, date, url, resource: str</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-flask_app.app">
+<span id="flask-app"></span><h1>Flask app<a class="headerlink" href="#module-flask_app.app" title="Permalink to this headline">¶</a></h1>
+<p>app.py</p>
+<hr class="docutils" />
+<p>The core module of my example project</p>
+<dl class="py class">
+<dt id="flask_app.app.Article">
+<em class="property">class </em><code class="sig-prename descclassname">flask_app.app.</code><code class="sig-name descname">Article</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.app.Article" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for articles</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="flask_app.app.ArticleFakeChecker2">
+<em class="property">class </em><code class="sig-prename descclassname">flask_app.app.</code><code class="sig-name descname">ArticleFakeChecker2</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.app.ArticleFakeChecker2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for articles_fakecheckers</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="flask_app.app.ArticleKeyWord">
+<em class="property">class </em><code class="sig-prename descclassname">flask_app.app.</code><code class="sig-name descname">ArticleKeyWord</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.app.ArticleKeyWord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for keywords</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="flask_app.app.get_sites">
+<code class="sig-prename descclassname">flask_app.app.</code><code class="sig-name descname">get_sites</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.app.get_sites" title="Permalink to this definition">¶</a></dt>
+<dd><p>sites page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="flask_app.app.input_article">
+<code class="sig-prename descclassname">flask_app.app.</code><code class="sig-name descname">input_article</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.app.input_article" title="Permalink to this definition">¶</a></dt>
+<dd><p>input page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="flask_app.app.welcome">
+<code class="sig-prename descclassname">flask_app.app.</code><code class="sig-name descname">welcome</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.app.welcome" title="Permalink to this definition">¶</a></dt>
+<dd><p>welcome page</p>
+</dd></dl>
+
+</div>
+<div class="section" id="additional-modules-for-flask-app">
+<h1>Additional modules for Flask app<a class="headerlink" href="#additional-modules-for-flask-app" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-flask_app.fake_news_classifier"></span><p>Import libraries for ML</p>
+<dl class="py function">
+<dt id="flask_app.fake_news_classifier.get_tests_results">
+<code class="sig-prename descclassname">flask_app.fake_news_classifier.</code><code class="sig-name descname">get_tests_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.fake_news_classifier.get_tests_results" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a result of training</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="flask_app.fake_news_classifier.plot_confusion_matrix">
+<code class="sig-prename descclassname">flask_app.fake_news_classifier.</code><code class="sig-name descname">plot_confusion_matrix</code><span class="sig-paren">(</span><em class="sig-param">cm</em>, <em class="sig-param">classes</em>, <em class="sig-param">normalize=False</em>, <em class="sig-param">title='Confusion matrix'</em>, <em class="sig-param">cmap=&lt;matplotlib.colors.LinearSegmentedColormap object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.fake_news_classifier.plot_confusion_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>See full source and example:
+<a class="reference external" href="http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html">http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html</a></p>
+<p>This function prints and plots the confusion matrix.
+Normalization can be applied by setting <cite>normalize=True</cite>.</p>
+</dd></dl>
+
+<span class="target" id="module-flask_app.get_similar_articles"></span><p>Import ML libraries</p>
+<dl class="py function">
+<dt id="flask_app.get_similar_articles.cosine_sim">
+<code class="sig-prename descclassname">flask_app.get_similar_articles.</code><code class="sig-name descname">cosine_sim</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text1</span></em>, <em class="sig-param"><span class="n">text2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.get_similar_articles.cosine_sim" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text1</strong> – str</p></li>
+<li><p><strong>text2</strong> – str</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a possibility of simplicity</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="flask_app.get_similar_articles.normalize">
+<code class="sig-prename descclassname">flask_app.get_similar_articles.</code><code class="sig-name descname">normalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.get_similar_articles.normalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove punctuation, lowercase, stem</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="flask_app.get_similar_articles.stem_tokens">
+<code class="sig-prename descclassname">flask_app.get_similar_articles.</code><code class="sig-name descname">stem_tokens</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tokens</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.get_similar_articles.stem_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tokens</strong> – tokens for training</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of tokens</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="additional-modules-for-preparing-data-for-ml">
+<h1>Additional modules for preparing data for ML<a class="headerlink" href="#additional-modules-for-preparing-data-for-ml" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-prepare_data.create_date_filtering"></span><p>Libraries for reform all date in special form</p>
+<dl class="py function">
+<dt id="prepare_data.create_date_filtering.create_date_form">
+<code class="sig-prename descclassname">prepare_data.create_date_filtering.</code><code class="sig-name descname">create_date_form</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_name</span></em>, <em class="sig-param"><span class="n">start_id</span></em>, <em class="sig-param"><span class="n">finish_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.create_date_filtering.create_date_form" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> – a name of database table</p></li>
+<li><p><strong>start_id</strong> – int</p></li>
+<li><p><strong>finish_id</strong> – int</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>reformed dates and add in database</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-prepare_data.create_json_for_ml"></span><dl class="py function">
+<dt id="prepare_data.create_json_for_ml.write_in_json">
+<code class="sig-prename descclassname">prepare_data.create_json_for_ml.</code><code class="sig-name descname">write_in_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">title</span></em>, <em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">n_last_article</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.create_json_for_ml.write_in_json" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – str</p></li>
+<li><p><strong>text</strong> – str</p></li>
+<li><p><strong>label</strong> – str</p></li>
+<li><p><strong>n_last_article</strong> – int</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>write in json for ml</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-prepare_data.json_to_csv"></span><dl class="py function">
+<dt id="prepare_data.json_to_csv.write_to_csv">
+<code class="sig-prename descclassname">prepare_data.json_to_csv.</code><code class="sig-name descname">write_to_csv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">result_filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.json_to_csv.write_to_csv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – str</p></li>
+<li><p><strong>result_filename</strong> – str</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>write in csv from json</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-prepare_data.translate_text"></span><dl class="py function">
+<dt id="prepare_data.translate_text.translate_text">
+<code class="sig-prename descclassname">prepare_data.translate_text.</code><code class="sig-name descname">translate_text</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">article</span></em>, <em class="sig-param"><span class="n">dest_lang</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.translate_text.translate_text" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>article</strong> – str</p></li>
+<li><p><strong>dest_lang</strong> – str, language in which you want to translate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>return translated text on dest_lang</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-prepare_data.translate_titles"></span><dl class="py function">
+<dt id="prepare_data.translate_titles.translate_titles">
+<code class="sig-prename descclassname">prepare_data.translate_titles.</code><code class="sig-name descname">translate_titles</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start_id</span></em>, <em class="sig-param"><span class="n">finish_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.translate_titles.translate_titles" title="Permalink to this definition">¶</a></dt>
+<dd><p>translate titles on english</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="prepare_data.translate_titles.write_in_db">
+<code class="sig-prename descclassname">prepare_data.translate_titles.</code><code class="sig-name descname">write_in_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.translate_titles.write_in_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>write in db from jsins with translated titles</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="prepare_data.translate_titles.write_in_json">
+<code class="sig-prename descclassname">prepare_data.translate_titles.</code><code class="sig-name descname">write_in_json</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_name</span></em>, <em class="sig-param"><span class="n">start_id</span></em>, <em class="sig-param"><span class="n">finish_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.translate_titles.write_in_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>write from db in json for translating titles on english</p>
+</dd></dl>
+
+</div>
+<div class="section" id="site-parsers-for-fakecheckers">
+<h1>Site parsers for fakecheckers<a class="headerlink" href="#site-parsers-for-fakecheckers" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-site_parse.parse_fakecheckers.parse_euvsdisinfo2"></span><dl class="py function">
+<dt id="site_parse.parse_fakecheckers.parse_euvsdisinfo2.parse_article_pages">
+<code class="sig-prename descclassname">site_parse.parse_fakecheckers.parse_euvsdisinfo2.</code><code class="sig-name descname">parse_article_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_fakecheckers.parse_euvsdisinfo2.parse_article_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse special page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_fakecheckers.parse_euvsdisinfo2.parse_main_pages">
+<code class="sig-prename descclassname">site_parse.parse_fakecheckers.parse_euvsdisinfo2.</code><code class="sig-name descname">parse_main_pages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_fakecheckers.parse_euvsdisinfo2.parse_main_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse pages to get main information</p>
+</dd></dl>
+
+<span class="target" id="module-site_parse.parse_fakecheckers.parse_euvsdisinfo_base"></span><dl class="py function">
+<dt id="site_parse.parse_fakecheckers.parse_euvsdisinfo_base.parse_article_pages">
+<code class="sig-prename descclassname">site_parse.parse_fakecheckers.parse_euvsdisinfo_base.</code><code class="sig-name descname">parse_article_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">class_title</span></em>, <em class="sig-param"><span class="n">class_date</span></em>, <em class="sig-param"><span class="n">class_text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_fakecheckers.parse_euvsdisinfo_base.parse_article_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse special page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_fakecheckers.parse_euvsdisinfo_base.parse_main_pages">
+<code class="sig-prename descclassname">site_parse.parse_fakecheckers.parse_euvsdisinfo_base.</code><code class="sig-name descname">parse_main_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">site_name</span></em>, <em class="sig-param"><span class="n">url_main</span></em>, <em class="sig-param"><span class="n">url_page2</span></em>, <em class="sig-param"><span class="n">class_articles</span></em>, <em class="sig-param"><span class="n">class_title</span></em>, <em class="sig-param"><span class="n">class_date</span></em>, <em class="sig-param"><span class="n">class_text</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_fakecheckers.parse_euvsdisinfo_base.parse_main_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse pages to get main information</p>
+</dd></dl>
+
+<span class="target" id="module-site_parse.parse_fakecheckers.parse_stopfake"></span><dl class="py function">
+<dt id="site_parse.parse_fakecheckers.parse_stopfake.parse_article_pages">
+<code class="sig-prename descclassname">site_parse.parse_fakecheckers.parse_stopfake.</code><code class="sig-name descname">parse_article_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_fakecheckers.parse_stopfake.parse_article_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse special page</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_fakecheckers.parse_stopfake.parse_main_pages">
+<code class="sig-prename descclassname">site_parse.parse_fakecheckers.parse_stopfake.</code><code class="sig-name descname">parse_main_pages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_fakecheckers.parse_stopfake.parse_main_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse main pages to get main url and titles</p>
+</dd></dl>
+
+</div>
+<div class="section" id="site-parsers-for-true-sites">
+<h1>Site parsers for true sites<a class="headerlink" href="#site-parsers-for-true-sites" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-site_parse.parse_true_sites.parse_obozrevatel"></span><dl class="py function">
+<dt id="site_parse.parse_true_sites.parse_obozrevatel.get_html_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parse_obozrevatel.</code><code class="sig-name descname">get_html_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url_main</span></em>, <em class="sig-param"><span class="n">driver</span></em>, <em class="sig-param"><span class="n">urls_dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parse_obozrevatel.get_html_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>write urls in files</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_true_sites.parse_obozrevatel.parse_all_main_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parse_obozrevatel.</code><code class="sig-name descname">parse_all_main_pages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parse_obozrevatel.parse_all_main_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>get urls from pages</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_true_sites.parse_obozrevatel.parse_all_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parse_obozrevatel.</code><code class="sig-name descname">parse_all_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parse_obozrevatel.parse_all_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse main pages to get all data</p>
+</dd></dl>
+
+<span class="target" id="module-site_parse.parse_true_sites.parse_tsn"></span><dl class="py function">
+<dt id="site_parse.parse_true_sites.parse_tsn.get_html_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parse_tsn.</code><code class="sig-name descname">get_html_pages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parse_tsn.get_html_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse to get main urls</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_true_sites.parse_tsn.parse_all_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parse_tsn.</code><code class="sig-name descname">parse_all_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parse_tsn.parse_all_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse main pages to get all data</p>
+</dd></dl>
+
+<span class="target" id="module-site_parse.parse_true_sites.parser_ictv_fakty"></span><dl class="py function">
+<dt id="site_parse.parse_true_sites.parser_ictv_fakty.parse_article_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parser_ictv_fakty.</code><code class="sig-name descname">parse_article_pages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span></em><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parser_ictv_fakty.parse_article_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse special pages to get certain data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="site_parse.parse_true_sites.parser_ictv_fakty.parse_main_pages">
+<code class="sig-prename descclassname">site_parse.parse_true_sites.parser_ictv_fakty.</code><code class="sig-name descname">parse_main_pages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#site_parse.parse_true_sites.parser_ictv_fakty.parse_main_pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>parse main pages to get all data</p>
+</dd></dl>
+
+</div>
+<div class="section" id="tests-of-the-project">
+<h1>Tests of the project<a class="headerlink" href="#tests-of-the-project" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-prepare_data.test_date_filtering"></span><dl class="py class">
+<dt id="prepare_data.test_date_filtering.TestDate">
+<em class="property">class </em><code class="sig-prename descclassname">prepare_data.test_date_filtering.</code><code class="sig-name descname">TestDate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.test_date_filtering.TestDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>class to test the main functions of class Flower</p>
+<dl class="py method">
+<dt id="prepare_data.test_date_filtering.TestDate.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.test_date_filtering.TestDate.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up different examples to attributes to detect error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="prepare_data.test_date_filtering.TestDate.test_transform_date">
+<code class="sig-name descname">test_transform_date</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#prepare_data.test_date_filtering.TestDate.test_transform_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test type of attributes, which class has</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-flask_app.data_structures.test_linked_list"></span><dl class="py class">
+<dt id="flask_app.data_structures.test_linked_list.TestLinked">
+<em class="property">class </em><code class="sig-prename descclassname">flask_app.data_structures.test_linked_list.</code><code class="sig-name descname">TestLinked</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.data_structures.test_linked_list.TestLinked" title="Permalink to this definition">¶</a></dt>
+<dd><p>class to test the main functions of class Flower</p>
+<dl class="py method">
+<dt id="flask_app.data_structures.test_linked_list.TestLinked.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.data_structures.test_linked_list.TestLinked.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up different examples to attributes to detect error</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="flask_app.data_structures.test_linked_list.TestLinked.test_sort">
+<code class="sig-name descname">test_sort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#flask_app.data_structures.test_linked_list.TestLinked.test_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test type of attributes, which class has</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 
 
           </div>
@@ -128,7 +441,13 @@ title, date, url, resource: str</p>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Data Structures</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-flask_app.app">Flask app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#additional-modules-for-flask-app">Additional modules for Flask app</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#additional-modules-for-preparing-data-for-ml">Additional modules for preparing data for ML</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#site-parsers-for-fakecheckers">Site parsers for fakecheckers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#site-parsers-for-true-sites">Site parsers for true sites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#tests-of-the-project">Tests of the project</a></li>
 </ul>
 
 <div class="relations">

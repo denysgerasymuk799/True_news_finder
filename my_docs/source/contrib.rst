@@ -20,20 +20,64 @@ Additional modules for Flask app
 .. automodule:: flask_app.get_similar_articles
    :members:
 
-create_date_filtering
-create_json_for_ml
-json_to_csv
 
-test_date_filtering
-translate_text
-translate_titles
+Additional modules for preparing data for ML
+===================
+.. automodule:: prepare_data.create_date_filtering
+   :members:
 
-parse_fakecheckers
-parse_euvsdisinfo2
-parse_euvsdisinfo_base
-parse_stopfake
+.. automodule:: prepare_data.create_json_for_ml
+   :members:
 
-parse_true_sites
-parse_obozrevatel
-parse_tsn
-parser_ictv_fakty
+.. automodule:: prepare_data.json_to_csv
+   :members:
+
+
+.. automodule:: prepare_data.transform.date
+   :members:
+
+.. automodule:: prepare_data.translate_text
+   :members:
+
+.. automodule:: prepare_data.translate_titles
+   :members:
+
+
+Site parsers for fakecheckers
+===================
+.. automodule:: site_parse.parse_fakecheckers.parse_fakecheckers
+   :members:
+
+.. automodule:: site_parse.parse_fakecheckers.parse_euvsdisinfo2
+   :members:
+
+.. automodule:: site_parse.parse_fakecheckers.parse_euvsdisinfo_base
+   :members:
+
+.. automodule:: site_parse.parse_fakecheckers.parse_stopfake
+   :members:
+
+.. automodule:: site_parse.parse_fakecheckers.translate_title
+   :members:
+
+
+
+Site parsers for true sites
+===================
+.. automodule:: site_parse.parse_true_sites.parse_obozrevatel
+   :members:
+
+.. automodule:: site_parse.parse_true_sites.parse_tsn
+   :members:
+
+.. automodule:: site_parse.parse_true_sites.parser_ictv_fakty
+   :members:
+
+
+Tests of the project
+===================
+.. automodule:: prepare_data.test_date_filtering
+   :members:
+
+.. automodule:: flask_app.data_structures.test_linked_list
+   :members:
