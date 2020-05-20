@@ -4,7 +4,7 @@
 
 
 # Project name: 
-Fake news finder
+True news finder
     
 # Description: 
 Demo video - part1 - https://youtu.be/BbioWtKkl5Y, part2 - https://youtu.be/-n4ETxvYnPU
