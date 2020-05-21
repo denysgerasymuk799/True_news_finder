@@ -20,7 +20,7 @@ Users also have the opportunity to receive news-confirmation or proof-refutation
 6. [License](#license)
 
 
-# Broad description:
+# Broad description: :sparkler:
 
 ### Purpose and brief description of the program
 
@@ -58,6 +58,7 @@ If it is a visualization of the research result, then the user does not enter an
 
 
 ### Description of each component
+
 - .ipynb_checkpoints - the main folder with files for training the model
 
 - flask_app - Flask web application and all files and modules associated with it
@@ -94,7 +95,7 @@ Received articles from various news portals:
 
 `КНДР обстріляла прикордонний пункт Південної Кореї`
 
-# Installation:
+# Installation: :pushpin:
 
 The application is fully functional if run locally. Also you can see my web application at the link - https://true-news-finder.herokuapp.com/. You can enter any news, but the algorithm will find better those headlines,
 which have been popular recently approximately one month, for example:
@@ -124,7 +125,7 @@ sudo pip install -r requirements.txt
 python3 flask_app/app..py
 ```
 
-# Usage:
+# Usage: :computer:
 
 - Open https://true-news-finder.herokuapp.com/ or run flask_app/app.py from this repo
 - Read welcome page
@@ -132,6 +133,11 @@ python3 flask_app/app..py
 - Input a title and text of your article. which you want to checker and find similar articles
 - Choose the best articles for use or use sort by date button
 - Enjoy:)
+
+# Documentation  :notebook_with_decorative_cover:
+
+Documentation for this application can be found in my_docs/build/html/index.html
+
 
 # Contribution:
 
