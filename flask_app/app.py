@@ -24,8 +24,8 @@ from flask_app.data_structures.linked_list import LinkedList
 from site_parse.translate_title import translate_title
 
 from rq import Queue
-from ..worker import conn
-from ..utils import count_words_at_url
+from worker import conn
+from utils import count_words_at_url
 
 q = Queue(connection=conn)
 

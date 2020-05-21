@@ -5,6 +5,11 @@
 
 # Project name: 
 True news finder
+
+![](https://img.shields.io/badge/-status:wip-5319e7.svg)
+![](https://img.shields.io/github/license/denysgerasymuk799/True_news_finder.svg)
+![](https://img.shields.io/github/languages/code-size/denysgerasymuk799/True_news_finder.svg)
+![](https://img.shields.io/github/last-commit/denysgerasymuk799/True_news_finder.svg)
     
 # Description: 
 Demo video - part1 - https://youtu.be/BbioWtKkl5Y, part2 - https://youtu.be/-n4ETxvYnPU
