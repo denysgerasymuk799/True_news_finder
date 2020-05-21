@@ -43,23 +43,16 @@ If it is a visualization of the research result, then the user does not enter an
   - аpp.py 
   - fake_news_classifier.py
   - get_similar_articles.py
-  - microsoft_text_recognition.py
   - my_config.py
-  - translate_text_with_array.py
-  - try_data_structers.py
+  - try_data_structures.py
+
+- my_docs
 
 - site_parse
 
 - static
 
-- create_train_json.py
-
-- json_to_csv.py
-
-- xlsx_to_json.py
-
-
-
+- files for hosting
 
 
 ### Description of each component
@@ -71,20 +64,14 @@ If it is a visualization of the research result, then the user does not enter an
   - app.py - the main module that contains all the movements on the pages of the web application, as well as models and tables for the database
   - fake_news_classifier.py - fake data recognition model that also visualizes the result
   - get_similar_articles.py - a module that retrieves information from a database and finds similar articles by keywords
-  - microsoft_text_recognition.py- a module that interacts with the Azure Cognitive Service to write in the table of keywords for each article and get keywords for the article entered by the user
   - my_config.py- master keys and configuration of web application and database
-  - translate_text_with_array.py - English translator from any googletrans library
-  - try_data_structers.py- module for testing all data structures in the project
+  - try_data_structures.py- module for testing all data structures in the project
 
 - site_parse- folder with fake checker parsing modules and the truest news sites in Ukraine
 
+- prepare_data - a directory for creating data for ML algorithm, which finds fake news
+
 - static-folder for saving the main documents about the project
-
-- create_train_json.py - a module that reads json with news for model training and translates it into English in order to conduct more accurate research as in English libraries use in the project work more accurately
-
-- json_to_csv.py- module that converts json to csv for training module Fake_news_classifier.py
-
-- xlsx_to_json.py - a module that converts xlsx to json to check the correctness of read data from csv
 
 
 
