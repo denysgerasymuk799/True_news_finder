@@ -23,18 +23,18 @@ from flask_app.my_config import Config
 from flask_app.data_structures.linked_list import LinkedList
 from site_parse.translate_title import translate_title
 
-temp_dir = os.getcwd()
-os.chdir("..")
-
-from rq import Queue
-from worker import conn
-from utils import count_words_at_url
-
-q = Queue(connection=conn)
-
-result = q.enqueue(count_words_at_url, 'http://heroku.com')
-
-os.chdir(temp_dir)
+# temp_dir = os.getcwd()
+# os.chdir("..")
+#
+# from rq import Queue
+# from worker import conn
+# from utils import count_words_at_url
+#
+# q = Queue(connection=conn)
+#
+# result = q.enqueue(count_words_at_url, 'http://heroku.com')
+#
+# os.chdir(temp_dir)
 
 app = Flask(__name__)
 
@@ -56,7 +56,7 @@ article_fake_checker2_to_key_words = db.Table('article_fake_checker2_to_key_word
 
 class ArticleKeyWord(db.Model):
     """
-    Class for keywords
+    Class for keywords of the article titles
     """
     id = db.Column(db.Integer, primary_key=True)
     title_en = db.Column(db.String(400), unique=False, nullable=False)
@@ -178,6 +178,16 @@ def get_sites():
 
 def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
                      same_articles="", additional=""):
+    """
+
+    :param user_title: str, a title of input news
+    :param table_name: str, a table from which to get data for searching
+    :param n_start_article: int, a start id
+    :param n_finish_article: int, a finish id
+    :param same_articles: a LinkedList of same articles
+    :param additional: flag if it should be writing in database
+    :return: same_articles with new found articles similar for input title
+    """
     for article_id in range(n_start_article, n_finish_article):
         print("article_id", article_id)
         article_from_db = ''
@@ -243,6 +253,12 @@ def get_data_from_db(user_title, table_name, n_start_article, n_finish_article,
 
 
 def get_similar(user_title, additional_function=""):
+    """
+
+    :param user_title: str, a table from which to get data for searching
+    :param additional_function: str, flag which say if we should start writing in database
+    :return: same_articles with new found articles similar for input title
+    """
     user_title = translate_title(user_title)
 
     blob = TextBlob(user_title)
