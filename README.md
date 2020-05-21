@@ -50,6 +50,8 @@ If it is a visualization of the research result, then the user does not enter an
 
 - site_parse
 
+- prepare_data
+
 - static
 
 - files for hosting
@@ -67,11 +69,13 @@ If it is a visualization of the research result, then the user does not enter an
   - my_config.py- master keys and configuration of web application and database
   - try_data_structures.py- module for testing all data structures in the project
 
-- site_parse- folder with fake checker parsing modules and the truest news sites in Ukraine
+- my_docs - documentation for this project, in build dir you can find html pages
+
+- site_parse - folder with fake checker parsing modules and the truest news sites in Ukraine
 
 - prepare_data - a directory for creating data for ML algorithm, which finds fake news
 
-- static-folder for saving the main documents about the project
+- static -folder for saving the main documents about the project
 
 
 
