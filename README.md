@@ -96,8 +96,6 @@ Received articles from various news portals:
 
 # Installation:
 
-# Usage:
-
 The application is fully functional if run locally. Also you can see my web application at the link - https://true-news-finder.herokuapp.com/. You can enter any news, but the algorithm will find better those headlines,
 which have been popular recently approximately one month, for example:
 
@@ -126,6 +124,14 @@ sudo pip install -r requirements.txt
 python3 flask_app/app..py
 ```
 
+# Usage:
+
+- Open https://true-news-finder.herokuapp.com/ or run flask_app/app.py from this repo
+- Read welcome page
+- Push Input title button on the right top corner
+- Input a title and text of your article. which you want to checker and find similar articles
+- Choose the best articles for use or use sort by date button
+- Enjoy:)
 
 # Contribution:
 

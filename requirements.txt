@@ -22,3 +22,5 @@ gunicorn~=20.0.4
 Flask-SQLAlchemy~=2.4.1
 psycopg2~=2.8.5
 excel2json~=1.0.1
+rq~=1.4.1
+redis~=3.5.2
