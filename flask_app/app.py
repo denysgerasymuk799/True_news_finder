@@ -23,18 +23,13 @@ from flask_app.my_config import Config
 from flask_app.data_structures.linked_list import LinkedList
 from site_parse.translate_title import translate_title
 
-# temp_dir = os.getcwd()
-# os.chdir("..")
-#
-# from rq import Queue
-# from worker import conn
-# from utils import count_words_at_url
-#
-# q = Queue(connection=conn)
-#
-# result = q.enqueue(count_words_at_url, 'http://heroku.com')
-#
-# os.chdir(temp_dir)
+from rq import Queue
+from ..worker import conn
+from ..utils import count_words_at_url
+
+q = Queue(connection=conn)
+
+result = q.enqueue(count_words_at_url, 'http://heroku.com')
 
 app = Flask(__name__)
 
