@@ -1,5 +1,6 @@
 # True_news_finder
 
+
 ![Fake news](my_static/fake_news.gif)
 
 
