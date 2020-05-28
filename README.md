@@ -13,7 +13,7 @@ True news finder
 ![](https://img.shields.io/github/last-commit/denysgerasymuk799/True_news_finder.svg)
     
 # Description: 
-Demo video - part1 - https://youtu.be/BbioWtKkl5Y, part2 - https://youtu.be/-n4ETxvYnPU
+Demo video - part1 - https://youtu.be/BbioWtKkl5Y, part2 - https://youtu.be/K-CaL7sWgTY
 The project aims to identify how reliable the news is in 4 categories: lies, cunning news, maybe true, true.
 Users also have the opportunity to receive news-confirmation or proof-refutation of the entered link to the news.
 
