@@ -1,6 +1,6 @@
-# Fake_news_finder
+# True_news_finder
 
-![Fake news](static/fake_news.gif)
+![Fake news](my_static/fake_news.gif)
 
 
 # Project name: 
