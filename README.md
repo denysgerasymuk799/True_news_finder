@@ -17,6 +17,9 @@ Demo video - part1 - https://youtu.be/BbioWtKkl5Y, part2 - https://youtu.be/K-Ca
 The project aims to identify how reliable the news is in 4 categories: lies, cunning news, maybe true, true.
 Users also have the opportunity to receive news-confirmation or proof-refutation of the entered link to the news.
 
+
+FOR MORE DETAILS LOOK AT GIT WIKI IN THIS REPOSITORY !!! 
+
 # Table of Contents: 
 1. [Description](#description)
 2. [Installation](#installation)
